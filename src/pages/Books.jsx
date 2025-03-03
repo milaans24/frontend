@@ -4,7 +4,7 @@ import AllBooks from "./AllBooks";
 
 const Books = () => {
   return (
-    <div className="  w-full   px-10 py-4 md:py-12  ">
+    <div className="w-full px-4 md:px-6 lg:px-10">
       <ShopByCategories />
       <AllBooks />
     </div>

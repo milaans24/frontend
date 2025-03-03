@@ -9,10 +9,6 @@ import Testimonial from "../components/Home/Testimonial";
 import SellingPartner from "../components/Home/SellingPartner";
 
 const Home = () => {
-  useEffect(() => {
-    window.scrollTo(0, 0);
-  }, []);
-
   return (
     <>
       <Hero />

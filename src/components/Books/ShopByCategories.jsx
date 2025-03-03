@@ -1,15 +1,17 @@
 import React, { useEffect, useState } from "react";
 import { IoSearch } from "react-icons/io5";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import { useSelector } from "react-redux";
 import axios from "axios";
 const ShopByCategories = () => {
   const [cat, setCategories] = useState();
+  const [SearchValue, setSearchValue] = useState("");
   const headers = {
     id: localStorage.getItem("id"),
     authorization: `Bearer ${localStorage.getItem("token")}`,
   };
   const backendLink = useSelector((state) => state.prod.link);
+  const navigate = useNavigate();
   useEffect(() => {
     const fetchCat = async () => {
       const response = await axios.get(`${backendLink}/api/v1/categories`, {
@@ -20,23 +22,32 @@ const ShopByCategories = () => {
     fetchCat();
   }, []);
 
+  const searchHandler = (e) => {
+    e.preventDefault();
+    navigate(`/search?book=${SearchValue}`);
+    setSearchValue("");
+  };
   return (
-    <div className="flex flex-col pb-8">
-      <h1 className="text-5xl text-center font-semibold">Shop by Categories</h1>
+    <div className="flex flex-col my-4 md:my-6 lg:my-12 md:h-auto">
+      <h1 className="text-3xl md:text-4xl lg:text-5xl text-center font-semibold">
+        Shop by Categories
+      </h1>
 
-      <div className="flex items-center justify-center mt-8">
-        <div className="w-4/6 bg-sky-900  h-12 rounded flex gap-8 px-8 text-zinc-200">
+      <div className="flex items-center justify-center mt-4 md:mt-8">
+        <div className="w-full md:w-4/6 bg-sky-900  h-12 rounded flex gap-8 px-8 text-zinc-200">
           <input
             type="input"
             className="bg-transparent w-full h-full outline-none font-semibold "
             placeholder="search by book name"
+            value={SearchValue}
+            onChange={(e) => setSearchValue(e.target.value)}
           />
-          <button>
+          <button onClick={searchHandler}>
             <IoSearch className="text-xl" />
           </button>
         </div>
       </div>
-      <hr className=" h-1 my-12" />
+      <hr className=" h-1  my-6 lg:my-12" />
       <div className="grid grid-cols-3 md:grid-cols-6 gap-6 md:gap-10">
         {cat &&
           cat.map((items) => (
@@ -53,7 +64,9 @@ const ShopByCategories = () => {
                 <div className="absolute top-6 h-24 w-24  bg-orange-100 -z-20 rounded-full"></div>
               </div>
 
-              <p className="font-bold text-sky-900 mt-4">{items.title}</p>
+              <p className="font-bold text-sky-900 text-sm md:text-normal mt-4 text-center">
+                {items.title}
+              </p>
             </Link>
           ))}
         <Link

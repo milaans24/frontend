@@ -1,30 +1,44 @@
 import React, { useEffect, useState } from "react";
-import BookCard from "../components/Books/BookCard";
-import axios from "axios";
-import Loader from "./Loader";
 import { useSelector } from "react-redux";
-const AllBooks = () => {
+import Loader from "../../pages/Loader";
+import BookCard from "../Books/BookCard";
+import axios from "axios";
+
+const MainResults = ({ value }) => {
   const [Books, setBooks] = useState([]);
+  const [loading, setLoading] = useState(false); // ✅ Loader state
   const backendLink = useSelector((state) => state.prod.link);
+
   useEffect(() => {
     const fetchAllBooks = async () => {
+      setLoading(true);
       try {
-        const response = await axios.get(`${backendLink}/api/v1/get-all-books`);
+        const response = await axios.get(
+          `${backendLink}/api/v1/search?book=${value}`
+        );
         setBooks(response.data.data);
       } catch (error) {
-        console.error("Error fetching all books", error);
+        console.error("Error fetching books", error);
       }
+      setLoading(false);
     };
+
     fetchAllBooks();
-  }, []);
+  }, [value]);
 
   return (
-    <div className="my-4 lg:my-12 md:h-auto">
-      {!Books.length && <Loader />}
-      <h1 className="text-center text-3xl font-semibold text-sky-900  mt-8 md:mt-0  md:mb-6 lg:mb-12">
-        Available Books
+    <div className="mb-4 md:mb-6 lg:mb-12">
+      <h1 className="text-3xl md:text-4xl lg:text-5xl text-center font-bold text-sky-900">
+        Search Results
       </h1>
-      {Books.length > 0 && (
+
+      {loading ? (
+        <Loader />
+      ) : Books.length === 0 ? (
+        <h3 className="text-center my-12 text-3xl font-bold text-zinc-400">
+          No Result Found
+        </h3>
+      ) : (
         <div className="h-auto md:px-12 mt-8">
           <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-5 gap-4 md:gap-8">
             {Books.map((items, i) => (
@@ -39,9 +53,9 @@ const AllBooks = () => {
             ))}
           </div>
         </div>
-      )}{" "}
+      )}
     </div>
   );
 };
 
-export default AllBooks;
+export default MainResults;

@@ -3,10 +3,10 @@ import { Link } from "react-router-dom";
 
 const Hero = () => {
   return (
-    <div className=" h-auto lg:h-screen w-full  flex flex-col lg:flex-row px-10 py-4 md:py-12 ">
+    <div className=" h-screen w-full  flex flex-col lg:flex-row px-8 md:px-10 py-4 md:py-12 ">
       <div className="w-full lg:w-3/6 h-[100%]  flex items-center justify-center ">
         <div className="w-full ">
-          <h1 className="text-sky-900 text-5xl font-bold text-center lg:text-left">
+          <h1 className="text-sky-900 text-3xl md:text-4xl lg:text-5xl font-bold text-center lg:text-left">
             Write. Publish. Inspire. –{" "}
             <span className="text-orange-500">
               The Future of Literature Begins Here!

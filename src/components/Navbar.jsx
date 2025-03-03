@@ -48,7 +48,7 @@ const Navbar = () => {
         data-twe-navbar-ref
       >
         <div className="flex w-full flex-wrap items-center justify-between px-3">
-          <div className="ms-2  w-3/6 lg:w-1/6">
+          <div className="ms-2  w-4/6 lg:w-1/6">
             <Link
               to="/"
               className="flex  font-bold items-center gap-2 text-white  px-2 py-2 bg-orange-500 rounded-full "
@@ -121,7 +121,7 @@ const Navbar = () => {
           </div>
         </div>
       </nav>
-      <div className={`5/6 ${Nav} lg:hidden bg-zinc-800  text-white px-12`}>
+      <div className={`5/6 ${Nav} lg:hidden bg-zinc-100  text-zinc-900 px-12`}>
         <div className="flex flex-col items-center">
           {links.map((items, i) => (
             <>

@@ -92,10 +92,7 @@ const AddBook = () => {
   };
 
   return (
-    <div className="h-[100%] p-0 md:p-4">
-      <h1 className=" text-3xl md:text-5xl font-semibold text-sky-900 mb-8">
-        Add Book
-      </h1>
+    <div className="h-[100%] p-0 ">
       <div className="p-4 shadow rounded">
         <div>
           <label htmlFor="" className="">

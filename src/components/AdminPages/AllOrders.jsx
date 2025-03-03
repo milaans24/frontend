@@ -76,11 +76,8 @@ const AllOrders = () => {
         </div>
       )}
       {OrderHistory && OrderHistory.length > 0 && (
-        <div className="h-[100%] p-0 md:p-4 text-zinc-100">
-          <h1 className=" text-3xl md:text-5xl font-semibold text-zinc-500 mb-8">
-            All Orders History
-          </h1>
-          <div className="mt-4 bg-zinc-800 w-full rounded py-2 px-4 flex gap-2">
+        <div className="h-[100%]  text-zinc-100">
+          <div className="mb-4 bg-sky-900 w-full rounded py-2 px-4 flex gap-2">
             <div className="w-[3%]">
               <h1 className="text-center">Sr.</h1>
             </div>
@@ -105,7 +102,7 @@ const AllOrders = () => {
           {OrderHistory.map((items, i) => (
             <div
               key={i}
-              className=" bg-zinc-800 w-full rounded py-2 px-4 flex gap-2 hover:bg-zinc-900 hover:cursor-pointer transition-all duration-300 "
+              className=" bg-zinc-200 text-black w-full rounded py-2 px-4 flex gap-2 hover:bg-zinc-100 hover:cursor-pointer transition-all duration-300 "
             >
               <div className="w-[3%]">
                 <h1 className="text-center">{i + 1}</h1>
@@ -113,7 +110,7 @@ const AllOrders = () => {
               <div className="w-[40%] md:w-[22%]">
                 <Link
                   to={`/view-book-details/${items?.book?._id}`}
-                  className="hover:text-blue-300"
+                  className="hover:text-blue-700"
                 >
                   {items?.book?.title}
                 </Link>

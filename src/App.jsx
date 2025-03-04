@@ -1,6 +1,7 @@
 import React, { useEffect } from "react";
 import { Routes, Route } from "react-router-dom";
 import Navbar from "./components/Navbar";
+import { ToastContainer } from "react-toastify";
 import Home from "./pages/Home";
 import Login from "./pages/Login";
 import Signup from "./pages/Signup";
@@ -36,6 +37,7 @@ const App = () => {
   return (
     <div className="">
       <Navbar />
+      <ToastContainer position="top-right" autoClose={3000} />
       <ScrollToTop />
       <Routes>
         <Route exact path="/" element={<Home />} />

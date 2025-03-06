@@ -1,4 +1,5 @@
 import React, { useState } from "react";
+import { Helmet } from "react-helmet-async";
 import { FaCheck } from "react-icons/fa";
 import { RxCross2 } from "react-icons/rx";
 import { packagesData } from "../extras/packageData";
@@ -9,14 +10,76 @@ const Packages = () => {
 
   return (
     <div className="relative">
+      {/* SEO Meta Tags */}
+      <Helmet>
+        <title>Book Publishing Packages - Milaan Publication</title>
+        <meta
+          name="description"
+          content="Discover the best book publishing packages at Milaan Publication. Get professional editing, global distribution, book marketing, and more. Choose a plan that suits your needs."
+        />
+        <meta
+          name="keywords"
+          content="book publishing packages, self-publishing plans, Milaan Publication, book editing, book marketing, global book distribution, affordable publishing"
+        />
+        <link
+          rel="canonical"
+          href="https://www.milaanpublication.in/packages"
+        />
+
+        {/* Open Graph (for better sharing on social media) */}
+        <meta
+          property="og:title"
+          content="Book Publishing Packages | Affordable Self-Publishing Plans"
+        />
+        <meta
+          property="og:description"
+          content="Explore our book publishing plans, including professional editing, book marketing, and worldwide distribution. Publish your book today!"
+        />
+        <meta
+          property="og:url"
+          content="https://www.milaanpublication.in/packages"
+        />
+        <meta property="og:type" content="website" />
+
+        {/* Twitter Card */}
+        <meta name="twitter:card" content="summary_large_image" />
+        <meta
+          name="twitter:title"
+          content="Book Publishing Packages | Affordable Self-Publishing Plans"
+        />
+        <meta
+          name="twitter:description"
+          content="Choose a book publishing plan that fits your needs. Get professional services, marketing, and worldwide book distribution."
+        />
+
+        {/* Schema Markup for SEO */}
+        <script type="application/ld+json">
+          {JSON.stringify({
+            "@context": "https://schema.org",
+            "@type": "Product",
+            name: "Book Publishing Packages",
+            description:
+              "Flexible book publishing plans with editing, marketing, and distribution.",
+            brand: "Milaan Publication",
+            offers: {
+              "@type": "AggregateOffer",
+              offerCount: packagesData.length,
+              priceCurrency: "INR",
+              lowPrice: packagesData[0].Price,
+              highPrice: packagesData[packagesData.length - 1].Price,
+            },
+          })}
+        </script>
+      </Helmet>
+
       <div className="h-auto w-full px-4 md:px-6 lg:px-10 py-4 md:py-12 overflow-x-auto">
         <div className="flex items-center justify-center gap-4 flex-col my-4 md:my-0 md:mb-12">
           <h1 className="text-3xl md:text-4xl lg:text-5xl font-semibold text-sky-900">
-            Publishing Plans
+            Book Publishing Packages
           </h1>
           <p className="text-sm md:text-base text-center">
-            These packages are designed as per your needs and are fully
-            customizable.
+            Choose from our flexible and customizable publishing plans to
+            publish your book with ease.
           </p>
         </div>
 

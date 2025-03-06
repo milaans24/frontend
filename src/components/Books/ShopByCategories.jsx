@@ -34,18 +34,19 @@ const ShopByCategories = () => {
       </h1>
 
       <div className="flex items-center justify-center mt-4 md:mt-8">
-        <div className="w-full md:w-4/6 bg-sky-900  h-12 rounded flex gap-8 px-8 text-zinc-200">
+        <form className="w-full md:w-4/6 bg-sky-900  h-12 rounded flex gap-8 px-8 text-zinc-200">
           <input
             type="input"
             className="bg-transparent w-full h-full outline-none font-semibold "
             placeholder="search by book name"
+            required
             value={SearchValue}
             onChange={(e) => setSearchValue(e.target.value)}
           />
           <button onClick={searchHandler}>
             <IoSearch className="text-xl" />
           </button>
-        </div>
+        </form>
       </div>
       <hr className=" h-1  my-6 lg:my-12" />
       <div className="grid grid-cols-3 md:grid-cols-6 gap-6 md:gap-10">

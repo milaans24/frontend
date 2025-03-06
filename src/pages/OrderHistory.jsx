@@ -43,7 +43,7 @@ const OrderHistory = () => {
           <h1 className=" text-3xl md:text-5xl font-semibold text-zinc-500 mb-8">
             Your Order History
           </h1>
-          <div className="mt-4 bg-zinc-800 w-full rounded py-2 px-4 flex gap-2">
+          <div className="mt-4  w-full rounded py-2 px-4 flex gap-2">
             <div className="w-[3%]">
               <h1 className="text-center">Sr.</h1>
             </div>

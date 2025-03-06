@@ -23,7 +23,7 @@ const Hero = () => {
           </p>
           <div className="flex justify-center lg:justify-start">
             <Link
-              to="/all-books"
+              to="/packages"
               className=" my-5 lg:my-6 text-xl bg-sky-900 text-white  rounded py-3 px-8 flex items-center justify-center  font-semibold transition-all duration-300"
             >
               Publish Your Book

@@ -7,6 +7,8 @@ import { IoOpenOutline } from "react-icons/io5";
 import { FaCheck } from "react-icons/fa6";
 import SeeUserData from "./SeeUserData";
 import { useSelector } from "react-redux";
+import { toast } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
 
 const AllOrders = () => {
   const [OrderHistory, setOrderHistory] = useState();
@@ -51,7 +53,7 @@ const AllOrders = () => {
           Values,
           { headers }
         );
-        alert(response.data.message);
+        toast.success(response.data.message);
       } catch (error) {
         console.error("Failed to update status:", error);
       }
@@ -145,7 +147,7 @@ const AllOrders = () => {
                     <select
                       name="status"
                       id=""
-                      className=" bg-gray-800"
+                      className=" bg-gray-100"
                       onChange={change}
                     >
                       {[

@@ -8,22 +8,55 @@ const PackageForm = () => {
   const backendLink = useSelector((state) => state.prod.link);
   const [formData, setFormData] = useState({
     name: "",
+    email: "",
     mobile: "",
     aboutBook: "",
     package: "",
   });
 
+  const validateForm = () => {
+    if (
+      !formData.name.trim() ||
+      !formData.email.trim() ||
+      !formData.mobile.trim() ||
+      !formData.aboutBook.trim() ||
+      !formData.package
+    ) {
+      toast.error("All fields are required!", { position: "top-right" });
+      return false;
+    }
+    if (!/^\S+@\S+\.\S+$/.test(formData.email)) {
+      toast.error("Invalid email format!", { position: "top-right" });
+      return false;
+    }
+    if (!/^\d{10}$/.test(formData.mobile)) {
+      toast.error("Mobile number must be 10 digits!", {
+        position: "top-right",
+      });
+      return false;
+    }
+    return true;
+  };
+
   const handleSubmit = async (e) => {
     e.preventDefault();
+    if (!validateForm()) return;
 
     try {
       await axios.post(`${backendLink}/api/send-email`, formData);
-      toast.success("Email sent successfully!", {
-        position: "top-right",
+      toast.success(
+        "Thank you for your inquiry! Our team will contact you soon.",
+        { position: "top-right" }
+      );
+      setFormData({
+        name: "",
+        email: "",
+        mobile: "",
+        aboutBook: "",
+        package: "",
       });
-      setFormData({ name: "", mobile: "", aboutBook: "", package: "" });
     } catch (error) {
-      toast.error(error.response?.data?.error || "Failed to send email", {
+      toast.error(error.response?.data?.error || "Failed", {
         position: "top-right",
       });
     }
@@ -40,6 +73,19 @@ const PackageForm = () => {
             placeholder="Your Name"
             value={formData.name}
             onChange={(e) => setFormData({ ...formData, name: e.target.value })}
+          />
+        </div>
+
+        <div className="flex flex-col">
+          <label className="font-semibold">Email</label>
+          <input
+            type="email"
+            className="border rounded px-4 py-2"
+            placeholder="Your Email"
+            value={formData.email}
+            onChange={(e) =>
+              setFormData({ ...formData, email: e.target.value })
+            }
           />
         </div>
 
@@ -95,7 +141,7 @@ const PackageForm = () => {
           type="submit"
           className="bg-blue-600 text-white px-4 py-2 rounded hover:bg-blue-500"
         >
-          Contact Me
+          Contact Us
         </button>
       </form>
     </div>

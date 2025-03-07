@@ -3,7 +3,7 @@ import { createSlice } from "@reduxjs/toolkit";
 const prodSlice = createSlice({
   name: "prod",
   initialState: {
-    link: "https://milaan-backend-71ny.onrender.com",
+    link: "http://localhost:1000",
   },
   reducers: {},
 });

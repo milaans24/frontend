@@ -40,10 +40,10 @@ const OrderHistory = () => {
       )}
       {OrderHistory && OrderHistory.length > 0 && (
         <div className="h-[100%] p-0 md:p-4 text-zinc-100">
-          <h1 className=" text-3xl md:text-5xl font-semibold text-zinc-500 mb-8">
+          <h1 className=" text-3xl md:text-5xl font-semibold  text-zinc-500 mb-4">
             Your Order History
           </h1>
-          <div className="mt-4  w-full rounded py-2 px-4 flex gap-2">
+          <div className="mt-4 bg-sky-900 text-white w-full rounded py-2 px-4 flex gap-2">
             <div className="w-[3%]">
               <h1 className="text-center">Sr.</h1>
             </div>
@@ -64,7 +64,7 @@ const OrderHistory = () => {
             </div>
           </div>
           {OrderHistory.map((items, i) => (
-            <div className=" bg-zinc-800 w-full rounded py-2 px-4 flex gap-4 hover:bg-zinc-900 hover:cursor-pointer transition-all duration-300 ">
+            <div className=" bg-zinc-200 w-full rounded py-2 px-4 flex gap-4 text-black hover:bg-zinc-300 hover:cursor-pointer transition-all duration-300 ">
               <div className="w-[3%]">
                 <h1 className="text-center">{i + 1}</h1>
               </div>
@@ -94,7 +94,7 @@ const OrderHistory = () => {
                 </h1>
               </div>
               <div className="w-none md:w-[5%] hidden md:block ">
-                <h1 className="text-sm text-zinc-400">COD</h1>
+                <h1 className="text-sm font-semibold">COD</h1>
               </div>
             </div>
           ))}

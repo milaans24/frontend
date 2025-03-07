@@ -9,7 +9,7 @@ const MobileBar = () => {
         <div className="w-full  items-center justify-center flex lg:hidden">
           <Link
             to="/profile"
-            className="text-zinc-900 font-semibold w-full py-2 text-center hover:bg-zinc-800 rounded transition-all duration-300 active:bg-zinc-800 focus:bg-zinc-800 "
+            className="text-zinc-900 font-semibold w-full py-2 text-center hover:bg-zinc-200 rounded transition-all duration-300 "
           >
             Favourites
           </Link>

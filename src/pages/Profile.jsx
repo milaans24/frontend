@@ -36,7 +36,7 @@ const Profile = () => {
       <div className="h-auto  px-2 md:px-8 py-8 flex flex-col lg:flex-row gap-4">
         {ProfileData && (
           <>
-            <div className="h-auto lg:h-[80vh] w-full lg:w-1/6  shadow-xl rounded-lg">
+            <div className="h-auto lg:h-[80vh] w-full lg:w-1/6  md:shadow-xl rounded-lg">
               <Sidebar ProfileData={ProfileData} />
             </div>
             {/* Mobile Bar  */}

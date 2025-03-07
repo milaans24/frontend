@@ -2,6 +2,8 @@ import React from "react";
 import { Link } from "react-router-dom";
 import axios from "axios";
 import { useSelector } from "react-redux";
+import { toast } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
 const BookCard = ({ image, title, author, price, bookid, fav }) => {
   const headers = {
     bookid: bookid,
@@ -16,7 +18,7 @@ const BookCard = ({ image, title, author, price, bookid, fav }) => {
         {},
         { headers }
       );
-      alert(response.data.message);
+      toast.success(response.data.message);
     } catch (error) {
       console.log(error);
     }

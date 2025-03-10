@@ -121,6 +121,8 @@ const Navbar = () => {
           </div>
         </div>
       </nav>
+
+      {/*           MOBILE NAV            */}
       <div className={`5/6 ${Nav} lg:hidden bg-zinc-100  text-zinc-900 px-12`}>
         <div className="flex flex-col items-center">
           {links.map((items, i) => (
@@ -158,13 +160,13 @@ const Navbar = () => {
             <>
               <Link
                 to="/login"
-                className="rounded border border-blue-500 px-3 py-1 mx-3 hover:bg-white hover:text-zinc-900 transition-all duration-300"
+                className="rounded border border-sky-900 px-3 py-1 mx-3 hover:bg-white hover:text-zinc-900 transition-all duration-300"
               >
                 LogIn
               </Link>
               <Link
                 to="/signup"
-                className="rounded  bg-blue-500 px-3 py-1 my-4 md:my-0 mx-3 hover:bg-white hover:text-zinc-900 transition-all duration-300"
+                className="rounded  bg-sky-900 px-3 py-1 my-4 md:my-0 mx-3 text-white transition-all duration-300"
               >
                 SignUp
               </Link>

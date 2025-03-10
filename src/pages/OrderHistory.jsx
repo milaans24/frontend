@@ -3,99 +3,91 @@ import Loader from "./Loader";
 import axios from "axios";
 import { Link } from "react-router-dom";
 import { useSelector } from "react-redux";
+
 const OrderHistory = () => {
-  const [OrderHistory, setOrderHistory] = useState();
+  const [orderHistory, setOrderHistory] = useState([]);
   const headers = {
     id: localStorage.getItem("id"),
     authorization: `Bearer ${localStorage.getItem("token")}`,
   };
   const backendLink = useSelector((state) => state.prod.link);
+
   useEffect(() => {
-    const fetch = async () => {
-      const res = await axios.get(`${backendLink}/api/v1/get-order-history`, {
-        headers,
-      });
-
-      setOrderHistory(res.data.data);
+    const fetchOrders = async () => {
+      try {
+        const res = await axios.get(`${backendLink}/api/v1/get-order-history`, {
+          headers,
+        });
+        setOrderHistory(res.data.data);
+      } catch (error) {
+        console.error("Error fetching order history:", error);
+      }
     };
-    fetch();
-  }, []);
-
+    fetchOrders();
+  }, [backendLink]);
   return (
     <>
-      {!OrderHistory && <Loader />}
-      {OrderHistory && OrderHistory.length === 0 && (
-        <div className="h-[80vh] p-4 text-zinc-100 ">
-          <div className="h-[100%] flex flex-col items-center justify-center">
-            <h1 className="text-5xl font-semibold text-zinc-500 mb-8">
-              No Order History
-            </h1>
-            <img
-              src="https://cdn-icons-png.flaticon.com/128/9961/9961218.png"
-              alt=""
-              className="h-[20vh] mb-8"
-            />
-          </div>
+      {!orderHistory && <Loader />}
+      {orderHistory && orderHistory.length === 0 && (
+        <div className="h-auto my-8 md:my-0 md:h-screen  w-full text-2xl flex flex-col gap-8 items-center justify-center font-semibold ">
+          <h1 className="text-3xl font-bold text-zinc-600">No order history</h1>
+          <img
+            src="https://cdn-icons-png.flaticon.com/128/9961/9961218.png"
+            alt="No Order"
+            className="h-[30vh]"
+          />
         </div>
       )}
-      {OrderHistory && OrderHistory.length > 0 && (
-        <div className="h-[100%] p-0 md:p-4 text-zinc-100">
-          <h1 className=" text-3xl md:text-5xl font-semibold  text-zinc-500 mb-4">
+      {orderHistory && orderHistory.length > 0 && (
+        <div className="h-full p-0 md:px-4 text-zinc-100">
+          <h1 className="text-3xl md:text-5xl font-semibold text-zinc-500 mb-8">
             Your Order History
           </h1>
-          <div className="mt-4 bg-sky-900 text-white w-full rounded py-2 px-4 flex gap-2">
-            <div className="w-[3%]">
-              <h1 className="text-center">Sr.</h1>
-            </div>
-            <div className="w-[22%] ">
-              <h1 className="">Books</h1>
-            </div>
-            <div className="w-[45%]">
-              <h1 className="">Description</h1>
-            </div>
-            <div className="w-[9%]">
-              <h1 className="">Price</h1>
-            </div>
-            <div className="w-[16%]">
-              <h1 className="">Status</h1>
-            </div>
-            <div className="w-none md:w-[5%] hidden md:block ">
-              <h1 className="">Mode</h1>
-            </div>
-          </div>
-          {OrderHistory.map((items, i) => (
-            <div className=" bg-zinc-200 w-full rounded py-2 px-4 flex gap-4 text-black hover:bg-zinc-300 hover:cursor-pointer transition-all duration-300 ">
-              <div className="w-[3%]">
-                <h1 className="text-center">{i + 1}</h1>
-              </div>
-              <div className="w-[22%] ">
-                <Link
-                  to={`/view-book-details/${items.book._id}`}
-                  className="hover:text-blue-300"
+          {orderHistory.map((order, index) => (
+            <div
+              key={order._id}
+              className="mb-6  p-6 rounded-lg border shadow text-black"
+            >
+              <h2 className="text-lg font-bold ">Order #{index + 1}</h2>
+              <p className="text-sm ">Address: {order.address}</p>
+              <p className="text-sm ">
+                Status: &nbsp;
+                <span
+                  className={`font-semibold ${
+                    order.status === "Order placed"
+                      ? "text-yellow-500"
+                      : order.status === "Canceled"
+                      ? "text-red-500"
+                      : "text-green-500"
+                  }`}
                 >
-                  {items.book.title}
-                </Link>
+                  {order.status}
+                </span>
+              </p>
+              <div className="mt-4 bg-sky-900 text-white w-full rounded py-2 px-4 flex gap-2">
+                <div className="w-1/6 text-center">Sr.</div>
+                <div className="w-3/6">Book</div>
+                <div className="w-1/6 text-center">Quantity</div>
+                <div className="w-1/6 text-center">Price</div>
               </div>
-              <div className="w-[45%]">
-                <h1 className="">{items.book.desc.slice(0, 50)} ...</h1>
-              </div>
-              <div className="w-[9%]">
-                <h1 className="">₹ {items.book.price}</h1>
-              </div>
-              <div className="w-[16%]">
-                <h1 className="font-semibold text-green-500">
-                  {items.status === "Order placed" ? (
-                    <div className="text-yellow-500">{items.status}</div>
-                  ) : items.status === "Canceled" ? (
-                    <div className="text-red-500">{items.status}</div>
-                  ) : (
-                    items.status
-                  )}
-                </h1>
-              </div>
-              <div className="w-none md:w-[5%] hidden md:block ">
-                <h1 className="text-sm font-semibold">COD</h1>
-              </div>
+              {order.books.map((item, i) => (
+                <div
+                  key={item.book._id}
+                  className="bg-zinc-200 w-full rounded py-2 px-4 flex gap-4 text-black hover:bg-zinc-300 cursor-pointer transition-all duration-300"
+                >
+                  <div className="w-1/6 text-center">{i + 1}</div>
+                  <div className="w-3/6">
+                    <Link
+                      to={`/view-book-details/${item.book._id}`}
+                      className="hover:text-blue-500"
+                    >
+                      {item.book.title}
+                    </Link>
+                  </div>
+                  <div className="w-1/6  text-center">{item.quantity}</div>
+                  <div className="w-1/6 text-center">₹ {item.book.price}</div>
+                </div>
+              ))}
             </div>
           ))}
         </div>

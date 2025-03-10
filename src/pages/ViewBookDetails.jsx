@@ -63,6 +63,7 @@ const ViewBookDetails = () => {
       );
       toast.success(response.data.message);
     } catch (error) {
+      console.log(error);
       toast.error("Failed to add to cart");
     }
   };

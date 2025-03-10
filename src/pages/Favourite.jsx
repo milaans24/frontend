@@ -26,13 +26,11 @@ const Favourite = () => {
     <>
       {!FavBooks && <Loader />}
       {FavBooks && FavBooks.length === 0 && (
-        <div className="h-[80vh] p-4 text-zinc-100 ">
-          <div className="h-[100%] flex flex-col items-center justify-center">
-            <h1 className="text-5xl font-semibold text-zinc-500 mb-8">
-              No favourite book
-            </h1>
-            <img src="./star.png" alt="" className="h-[20vh] mb-8" />
-          </div>
+        <div className="h-auto my-8 md:my-0 md:h-screen  w-full text-2xl flex flex-col gap-8 items-center justify-center font-semibold ">
+          <h1 className="text-3xl font-bold text-zinc-600">
+            No favourite book
+          </h1>
+          <img src="./star.png" alt="" className="h-[20vh]" />
         </div>
       )}
       {FavBooks && FavBooks.length > 0 && (

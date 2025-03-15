@@ -2,34 +2,39 @@ import React, { useState, useEffect } from "react";
 import axios from "axios";
 import { useNavigate, useParams } from "react-router-dom";
 import { useSelector } from "react-redux";
+
 const UpdateBooks = () => {
   const { id } = useParams();
   const history = useNavigate();
   const [Data, setData] = useState({
-    url: "",
+    images: [],
     title: "",
     author: "",
     price: "",
     desc: "",
     language: "",
+    category: "",
   });
+
   const backendLink = useSelector((state) => state.prod.link);
+
   useEffect(() => {
     window.scrollTo(0, 0);
     const fetch = async () => {
       const res = await axios.get(`${backendLink}/api/v1/get-book-by-id/${id}`);
-
       setData({
-        url: res.data.data.url,
+        images: res.data.data.urls || [],
         title: res.data.data.title,
         author: res.data.data.author,
         price: res.data.data.price,
         desc: res.data.data.desc,
         language: res.data.data.language,
+        category: res.data.data.category,
       });
     };
     fetch();
   }, []);
+
   const headers = {
     bookid: id,
     id: localStorage.getItem("id"),
@@ -40,15 +45,32 @@ const UpdateBooks = () => {
     const { name, value } = e.target;
     setData({ ...Data, [name]: value });
   };
+
+  const addImage = () => {
+    setData({ ...Data, images: [...Data.images, ""] });
+  };
+
+  const updateImage = (index, value) => {
+    const newImages = [...Data.images];
+    newImages[index] = value;
+    setData({ ...Data, images: newImages });
+  };
+
+  const removeImage = (index) => {
+    const newImages = Data.images.filter((_, i) => i !== index);
+    setData({ ...Data, images: newImages });
+  };
+
   const update = async () => {
     try {
       if (
-        Data.url === "" ||
+        Data.images.length === 0 ||
         Data.title === "" ||
         Data.author === "" ||
         Data.price === "" ||
         Data.desc === "" ||
-        Data.language === ""
+        Data.language === "" ||
+        Data.category === ""
       ) {
         alert("All fields are required");
       } else {
@@ -66,88 +88,108 @@ const UpdateBooks = () => {
   };
 
   return (
-    <div className="px-12 py-8 h-auto ">
-      <h1 className=" text-3xl md:text-5xl font-semibold text-sky-900 mb-8">
+    <div className="px-12 py-8 h-auto">
+      <h1 className="text-3xl md:text-5xl font-semibold text-sky-900 mb-8">
         Update Book
       </h1>
-      <div className="p-4  rounded">
+      <div className="p-4 rounded">
         <div>
-          <label htmlFor="">Image</label>
-          <input
-            type="text"
-            className="w-full mt-2 bg-zinc-200 rounded p-2 outline-none"
-            placeholder="url of image"
-            name="url"
-            required
-            value={Data.url}
-            onChange={change}
-          />
+          <label>Images</label>
+          {Data.images.map((img, index) => (
+            <div key={index} className="flex gap-2 mt-2">
+              <input
+                type="text"
+                className="w-full bg-zinc-200 rounded p-2 outline-none"
+                placeholder="Enter image URL"
+                value={img}
+                onChange={(e) => updateImage(index, e.target.value)}
+              />
+              <button
+                className="bg-red-500 text-white px-2 rounded"
+                onClick={() => removeImage(index)}
+              >
+                X
+              </button>
+            </div>
+          ))}
+          <button
+            className="mt-4 px-3 bg-sky-900 text-white font-semibold py-1 rounded hover:bg-sky-800"
+            onClick={addImage}
+          >
+            + Add Image
+          </button>
         </div>
         <div className="mt-4">
-          <label htmlFor="">Title of book</label>
+          <label>Title of book</label>
           <input
             type="text"
-            className="w-full mt-2 bg-zinc-200 rounded p-2 outline-none"
-            placeholder="title of book"
+            className="w-full bg-zinc-200 rounded p-2 outline-none"
+            placeholder="Title of book"
             name="title"
-            required
             value={Data.title}
             onChange={change}
           />
         </div>
         <div className="mt-4">
-          <label htmlFor="">Author of book</label>
+          <label>Author</label>
           <input
             type="text"
-            className="w-full mt-2 bg-zinc-200 rounded p-2 outline-none"
-            placeholder="author of book"
+            className="w-full bg-zinc-200 rounded p-2 outline-none"
+            placeholder="Author"
             name="author"
-            required
             value={Data.author}
             onChange={change}
           />
         </div>
+        <div className="mt-4">
+          <label>Category</label>
+          <input
+            type="text"
+            className="w-full bg-zinc-200 rounded p-2 outline-none"
+            placeholder="Category"
+            name="category"
+            value={Data.category}
+            onChange={change}
+            disabled
+          />
+        </div>
         <div className="mt-4 flex gap-4">
           <div className="w-3/6">
-            <label htmlFor="">Language</label>
+            <label>Language</label>
             <input
               type="text"
-              className="w-full mt-2 bg-zinc-200 rounded p-2 outline-none"
-              placeholder="language of book"
+              className="w-full bg-zinc-200 rounded p-2 outline-none"
+              placeholder="Language"
               name="language"
-              required
               value={Data.language}
               onChange={change}
             />
           </div>
           <div className="w-3/6">
-            <label htmlFor="">Price</label>
+            <label>Price</label>
             <input
               type="number"
-              className="w-full mt-2 bg-zinc-200 rounded p-2 outline-none"
-              placeholder="price of book"
+              className="w-full bg-zinc-200 rounded p-2 outline-none"
+              placeholder="Price"
               name="price"
-              required
               value={Data.price}
               onChange={change}
             />
           </div>
         </div>
         <div className="mt-4">
-          <label htmlFor="">Description of book</label>
+          <label>Description</label>
           <textarea
-            className="w-full mt-2 bg-zinc-200 rounded p-2 outline-none "
+            className="w-full bg-zinc-200 rounded p-2 outline-none"
             rows="5"
-            placeholder="description of book"
+            placeholder="Description"
             name="desc"
-            required
             value={Data.desc}
             onChange={change}
           />
         </div>
-
         <button
-          className=" mt-4 px-3 bg-sky-900 text-white font-semibold py-2 rounded hover:bg-sky-800 transition-all duration-300"
+          className="mt-4 px-3 bg-sky-900 text-white font-semibold py-2 rounded hover:bg-sky-800 transition-all duration-300"
           onClick={update}
         >
           Update Book

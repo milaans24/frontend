@@ -1,7 +1,7 @@
 export const packagesData = [
   {
-    Service: "Basic Package",
-    Price: 6499,
+    Service: "Student Package",
+    Price: "Registration Fee + Author Budget",
     "E-Book Publishing": true,
     "Paperback/Hardcover": true,
     "Complementary Copies": 2,
@@ -53,7 +53,7 @@ export const packagesData = [
   },
   {
     Service: "Premium Package",
-    Price: 13999,
+    Price: 19999,
     "E-Book Publishing": true,
     "Paperback/Hardcover": true,
     "Complementary Copies": 10,
@@ -79,7 +79,7 @@ export const packagesData = [
   },
   {
     Service: "Elite Package",
-    Price: 32999,
+    Price: 49999,
     "E-Book Publishing": true,
     "Paperback/Hardcover": true,
     "Complementary Copies": 25,

@@ -117,7 +117,7 @@ const PackageForm = () => {
         <div className="flex flex-col">
           <label className="font-semibold">Select Package</label>
           {[
-            "Basic Package",
+            "Student Package",
             "Standard Package",
             "Premium Package",
             "Elite Package",

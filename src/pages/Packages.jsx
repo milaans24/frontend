@@ -104,7 +104,11 @@ const Packages = () => {
                       {packagesData.map((items, i) => (
                         <td key={i} className="p-4">
                           {key === "Price" ? (
-                            `₹${items[key].toLocaleString("en-IN")}`
+                            typeof items[key] === "number" ? (
+                              `₹${items[key].toLocaleString("en-IN")}`
+                            ) : (
+                              items[key]
+                            )
                           ) : key === "Book Royalty" ? (
                             `${items[key]}%`
                           ) : typeof items[key] === "boolean" ? (

@@ -1,10 +1,11 @@
 import React, { useEffect, useState } from "react";
 import axios from "axios";
-import { IoAdd } from "react-icons/io5";
+import { IoAdd, IoTrash } from "react-icons/io5";
 import { useSelector } from "react-redux";
+
 const AddBook = () => {
   const [Data, setData] = useState({
-    url: "",
+    images: [""], // Array to store multiple image URLs
     title: "",
     author: "",
     price: "",
@@ -12,9 +13,11 @@ const AddBook = () => {
     language: "",
     category: "",
   });
+
   const [AddNewCat, setAddNewCat] = useState({ addCat: "" });
   const [Categories, setCategories] = useState();
   const backendLink = useSelector((state) => state.prod.link);
+
   const headers = {
     id: localStorage.getItem("id"),
     authorization: `Bearer ${localStorage.getItem("token")}`,
@@ -25,9 +28,19 @@ const AddBook = () => {
     setData({ ...Data, [name]: value });
   };
 
-  const addCatChange = (e) => {
-    const { name, value } = e.target;
-    setAddNewCat({ ...AddNewCat, [name]: value });
+  const handleImageChange = (index, value) => {
+    const updatedImages = [...Data.images];
+    updatedImages[index] = value;
+    setData({ ...Data, images: updatedImages });
+  };
+
+  const addImageField = () => {
+    setData({ ...Data, images: [...Data.images, ""] });
+  };
+
+  const removeImageField = (index) => {
+    const updatedImages = Data.images.filter((_, i) => i !== index);
+    setData({ ...Data, images: updatedImages });
   };
 
   useEffect(() => {
@@ -43,7 +56,7 @@ const AddBook = () => {
   const addNewCategory = async (e) => {
     e.preventDefault();
     try {
-      if (AddNewCat === "") {
+      if (AddNewCat.addCat === "") {
         alert("Add new category is required");
       } else {
         const response = await axios.post(
@@ -58,10 +71,12 @@ const AddBook = () => {
       alert(error.response.data.error);
     }
   };
+
   const submit = async () => {
     try {
       if (
-        Data.url === "" ||
+        Data.images.length === 0 ||
+        Data.images.some((img) => img === "") ||
         Data.title === "" ||
         Data.author === "" ||
         Data.price === "" ||
@@ -77,12 +92,13 @@ const AddBook = () => {
           { headers }
         );
         setData({
-          url: "",
+          images: [""],
           title: "",
           author: "",
           price: "",
           desc: "",
           language: "",
+          category: "",
         });
         alert(response.data.message);
       }
@@ -92,30 +108,45 @@ const AddBook = () => {
   };
 
   return (
-    <div className="h-[100%] p-0 ">
+    <div className="h-[100%] p-0">
       <div className="p-4 shadow rounded">
-        <div>
-          <label htmlFor="" className="">
-            Image
-          </label>
-          <input
-            type="text"
-            className="w-full mt-2 border rounded bg-zinc-200  p-2 outline-none"
-            placeholder="url of image"
-            name="url"
-            required
-            value={Data.url}
-            onChange={change}
-          />
-        </div>
+        {/* Image Fields */}
+        <label htmlFor="" className="">
+          Images
+        </label>
+        {Data.images.map((img, index) => (
+          <div key={index} className="flex items-center gap-2 mt-2">
+            <input
+              type="text"
+              className="w-full border rounded bg-zinc-200 p-2 outline-none"
+              placeholder="Enter image URL"
+              value={img}
+              onChange={(e) => handleImageChange(index, e.target.value)}
+            />
+            {index > 0 && (
+              <button
+                className="text-red-500 text-xl"
+                onClick={() => removeImageField(index)}
+              >
+                <IoTrash />
+              </button>
+            )}
+          </div>
+        ))}
+        <button
+          className="mt-3 bg-sky-900 text-white px-3 py-1 rounded flex items-center gap-1"
+          onClick={addImageField}
+        >
+          <IoAdd /> Add more images
+        </button>
+
+        {/* Other Fields */}
         <div className="mt-4">
-          <label htmlFor="" className="">
-            Title of book
-          </label>
+          <label htmlFor="">Title of book</label>
           <input
             type="text"
-            className="w-full mt-2 border rounded bg-zinc-200  p-2 outline-none"
-            placeholder="title of book"
+            className="w-full mt-2 border rounded bg-zinc-200 p-2 outline-none"
+            placeholder="Title of book"
             name="title"
             required
             value={Data.title}
@@ -123,13 +154,11 @@ const AddBook = () => {
           />
         </div>
         <div className="mt-4">
-          <label htmlFor="" className="">
-            Author of book
-          </label>
+          <label htmlFor="">Author of book</label>
           <input
             type="text"
-            className="w-full mt-2 border rounded bg-zinc-200  p-2 outline-none"
-            placeholder="author of book"
+            className="w-full mt-2 border rounded bg-zinc-200 p-2 outline-none"
+            placeholder="Author of book"
             name="author"
             required
             value={Data.author}
@@ -141,8 +170,8 @@ const AddBook = () => {
             <label htmlFor="">Language</label>
             <input
               type="text"
-              className="w-full mt-2 border rounded bg-zinc-200  p-2 outline-none"
-              placeholder="language of book"
+              className="w-full mt-2 border rounded bg-zinc-200 p-2 outline-none"
+              placeholder="Language of book"
               name="language"
               required
               value={Data.language}
@@ -153,8 +182,8 @@ const AddBook = () => {
             <label htmlFor="">Price</label>
             <input
               type="number"
-              className="w-full mt-2 border rounded bg-zinc-200  p-2 outline-none"
-              placeholder="price of book"
+              className="w-full mt-2 border rounded bg-zinc-200 p-2 outline-none"
+              placeholder="Price of book"
               name="price"
               required
               value={Data.price}
@@ -165,9 +194,9 @@ const AddBook = () => {
         <div className="mt-4">
           <label htmlFor="">Description of book</label>
           <textarea
-            className="w-full mt-2 border rounded bg-zinc-200  p-2 outline-none "
+            className="w-full mt-2 border rounded bg-zinc-200 p-2 outline-none"
             rows="5"
-            placeholder="description of book"
+            placeholder="Description of book"
             name="desc"
             required
             value={Data.desc}
@@ -180,14 +209,16 @@ const AddBook = () => {
             <label htmlFor="">Select Category</label>
             <select
               name="category"
-              id=""
-              className="w-full mt-2 border rounded bg-zinc-200  p-2 outline-none"
+              className="w-full mt-2 border rounded bg-zinc-200 p-2 outline-none"
               onChange={change}
+              value={Data.category}
             >
               <option value="">---</option>
               {Categories &&
                 Categories.map((items) => (
-                  <option value={items.title}> {items.title}</option>
+                  <option key={items.title} value={items.title}>
+                    {items.title}
+                  </option>
                 ))}
             </select>
           </div>
@@ -201,10 +232,10 @@ const AddBook = () => {
                 name="addCat"
                 required
                 value={AddNewCat.addCat}
-                onChange={addCatChange}
+                onChange={(e) => setAddNewCat({ addCat: e.target.value })}
               />
               <button
-                className="text-2xl bg-sky-900 hover:bg-sky-800 transition-all duration-300  text-white rounded p-2"
+                className="text-2xl bg-sky-900 hover:bg-sky-800 text-white rounded p-2"
                 onClick={addNewCategory}
               >
                 <IoAdd />
@@ -214,7 +245,7 @@ const AddBook = () => {
         </div>
 
         <button
-          className=" mt-4 px-3 bg-sky-900 text-white font-semibold py-2 rounded hover:bg-sky-800 transition-all duration-300"
+          className="mt-4 px-3 bg-sky-900 text-white font-semibold py-2 rounded hover:bg-sky-800"
           onClick={submit}
         >
           Add Book

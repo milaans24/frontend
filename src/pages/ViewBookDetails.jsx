@@ -11,10 +11,16 @@ import { Helmet } from "react-helmet-async";
 import { toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import Loader from "./Loader";
+import { Swiper, SwiperSlide } from "swiper/react";
+import "swiper/css";
+import "swiper/css/navigation";
+import "swiper/css/pagination";
+import { Navigation, Pagination } from "swiper/modules";
 
 const ViewBookDetails = () => {
   const { id } = useParams();
   const role = useSelector((state) => state.auth.role);
+  const isLoggedIn = useSelector((state) => state.auth.isLoggedIn);
   const history = useNavigate();
   const [Book, setBook] = useState();
   const [showConfirm, setShowConfirm] = useState(false);
@@ -91,14 +97,26 @@ const ViewBookDetails = () => {
       {!Book && <Loader />}
       {Book && (
         <div className="flex-col md:flex-row flex px-4 md:px-6 lg:px-10 my-12 gap-8">
-          <div className="w-full md:w-1/5 flex items-center justify-center">
-            <img
-              src={Book.url}
-              alt={Book.title}
-              className="h-full md:h-[70vh] rounded"
-            />
+          <div className={`w-full md:w-1/5 flex items-start justify-center`}>
+            {/* Swiper Carousel for Book Images */}
+            <Swiper
+              navigation
+              pagination={{ clickable: true }}
+              modules={[Navigation, Pagination]}
+              className="w-full h-full md:h-auto"
+            >
+              {Book.urls.map((imgUrl, index) => (
+                <SwiperSlide key={index} className="flex justify-center">
+                  <img
+                    src={imgUrl}
+                    alt={Book.title}
+                    className="h-full md:h-auto rounded"
+                  />
+                </SwiperSlide>
+              ))}
+            </Swiper>
           </div>
-          <div className="w-full md:w-3/5">
+          <div className={`w-full ${isLoggedIn ? "md:w-3/5" : "md:w-4/5"}`}>
             <h1 className="text-4xl font-semibold">{Book.title}</h1>
             <p className="text-zinc-400 mt-2">by {Book.author}</p>
             <p className="text-red-600 font-semibold mt-8">Book cost</p>
@@ -113,40 +131,42 @@ const ViewBookDetails = () => {
               <GrLanguage className="me-3" /> {Book.language}
             </p>
           </div>
-          <div className="rounded w-full md:w-1/5 bg-zinc-700 shadow h-fit p-6 flex flex-col items-center justify-center">
-            {role === "admin" && (
-              <div className="flex flex-row gap-8 md:gap-0 md:flex-col">
-                <Link
-                  to={`/update-book/${id}`}
-                  className="bg-white p-3 rounded font-semibold hover:bg-zinc-200 transition-all duration-300 flex items-center"
-                >
-                  <FaRegEdit className="me-4" /> Edit book
-                </Link>
-                <button
-                  className="mt-0 md:mt-8 bg-red-500 text-white p-3 rounded font-semibold flex items-center hover:bg-red-600 transition-all duration-300"
-                  onClick={() => setShowConfirm(true)}
-                >
-                  <MdDelete className="me-4" /> Delete book
-                </button>
-              </div>
-            )}
-            {role !== "admin" && (
-              <div className="flex flex-row gap-8 md:gap-0 md:flex-col">
-                <button
-                  className="bg-blue-700 text-white py-3 px-6 rounded md:rounded-full font-semibold flex items-center hover:bg-blue-600 transition-all duration-300"
-                  onClick={addToCart}
-                >
-                  <FaCartShopping className="me-1 md:me-4" /> Add to cart
-                </button>
-                <button
-                  className="mt-0 md:mt-4 bg-white py-3 px-6 rounded md:rounded-full font-semibold hover:bg-zinc-200 transition-all duration-300 flex items-center"
-                  onClick={addToFavourite}
-                >
-                  <GoHeartFill className="me-1 md:me-4" /> Favourites
-                </button>
-              </div>
-            )}
-          </div>
+          {isLoggedIn && (
+            <div className="rounded w-full md:w-1/5 border shadow h-fit p-6 flex flex-col items-center justify-center">
+              {role === "admin" && (
+                <div className="flex flex-row gap-8 md:gap-0 md:flex-col">
+                  <Link
+                    to={`/update-book/${id}`}
+                    className="bg-zinc-100 p-3 rounded font-semibold hover:bg-zinc-200 transition-all duration-300 flex items-center"
+                  >
+                    <FaRegEdit className="me-4" /> Edit book
+                  </Link>
+                  <button
+                    className="mt-0 md:mt-8 bg-red-500 text-white p-3 rounded font-semibold flex items-center hover:bg-red-600 transition-all duration-300"
+                    onClick={() => setShowConfirm(true)}
+                  >
+                    <MdDelete className="me-4" /> Delete book
+                  </button>
+                </div>
+              )}
+              {role === "user" && (
+                <div className="flex flex-row gap-8 md:gap-0 md:flex-col">
+                  <button
+                    className="bg-blue-700 text-white py-3 px-6 rounded md:rounded-full font-semibold flex items-center hover:bg-blue-600 transition-all duration-300"
+                    onClick={addToCart}
+                  >
+                    <FaCartShopping className="me-1 md:me-4" /> Add to cart
+                  </button>
+                  <button
+                    className="mt-0 md:mt-4 bg-zinc-100 py-3 px-6 rounded md:rounded-full font-semibold hover:bg-zinc-200 transition-all duration-300 flex items-center"
+                    onClick={addToFavourite}
+                  >
+                    <GoHeartFill className="me-1 md:me-4" /> Favourites
+                  </button>
+                </div>
+              )}
+            </div>
+          )}
         </div>
       )}
       {showConfirm && (

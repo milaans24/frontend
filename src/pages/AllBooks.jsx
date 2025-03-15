@@ -30,7 +30,7 @@ const AllBooks = () => {
             {Books.map((items, i) => (
               <BookCard
                 bookid={items._id}
-                image={items.url}
+                image={items.urls[0]}
                 title={items.title}
                 author={items.author}
                 price={items.price}

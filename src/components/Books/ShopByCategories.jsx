@@ -53,7 +53,7 @@ const ShopByCategories = () => {
         {cat &&
           cat.map((items) => (
             <Link
-              to={`/books/${items.title}`}
+              to={`/all-books`}
               className="flex flex-col gap-2 items-center justify-center"
             >
               <div className="relative flex items-center justify-center">
@@ -71,7 +71,7 @@ const ShopByCategories = () => {
             </Link>
           ))}
         <Link
-          to={`/books/discount`}
+          to={`/all-books`}
           className="flex flex-col gap-2 items-center justify-center"
         >
           <div className="relative flex items-center justify-center">

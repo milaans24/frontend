@@ -1,6 +1,6 @@
 import React from "react";
 import { RxCross1 } from "react-icons/rx";
-const SeeUserData = ({ userDivData, userDiv, setuserDiv }) => {
+const SeeUserData = ({ userDivData, userDiv, setuserDiv, PaymentData }) => {
   return (
     <>
       <div
@@ -25,6 +25,18 @@ const SeeUserData = ({ userDivData, userDiv, setuserDiv }) => {
           <div className="mt-4">
             <label htmlFor="">
               Email : <span className="font-semibold">{userDivData.email}</span>
+            </label>
+          </div>
+          <div className="mt-4">
+            <label htmlFor="">
+              Transaction Id :{" "}
+              <span className="font-semibold">{PaymentData.tId}</span>
+            </label>
+          </div>
+          <div className="mt-4">
+            <label htmlFor="">
+              Total Amount Paid :{" "}
+              <span className="font-semibold">₹{PaymentData.total}</span>
             </label>
           </div>
           <div className="mt-4">

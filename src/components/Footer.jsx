@@ -12,6 +12,10 @@ const Footer = () => {
       link: "/about-us",
     },
     {
+      title: "Our Policy",
+      link: "/our-policy",
+    },
+    {
       title: "All Books",
       link: "/all-books",
     },

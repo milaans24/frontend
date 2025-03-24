@@ -54,14 +54,31 @@ const OrderHistory = () => {
                 Status: &nbsp;
                 <span
                   className={`font-semibold ${
-                    order.status === "Order placed"
+                    order.orderStatus === "Order placed" ||
+                    order.orderStatus === "In progress"
                       ? "text-yellow-500"
-                      : order.status === "Canceled"
+                      : order.orderStatus === "Canceled" ||
+                        order.orderStatus === "Order not placed"
                       ? "text-red-500"
                       : "text-green-500"
                   }`}
                 >
-                  {order.status}
+                  {order.orderStatus}
+                </span>
+              </p>
+              <p className="text-sm ">
+                Payment: &nbsp;
+                <span
+                  className={`font-semibold ${
+                    order.paymentStatus === "In progress"
+                      ? "text-yellow-500"
+                      : order.paymentStatus === "Failed" ||
+                        order.paymentStatus === "Not done"
+                      ? "text-red-500"
+                      : "text-green-500"
+                  }`}
+                >
+                  {order.paymentStatus}
                 </span>
               </p>
               <div className="mt-4 bg-sky-900 text-white w-full rounded py-2 px-4 flex gap-2">

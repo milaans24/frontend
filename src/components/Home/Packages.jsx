@@ -7,20 +7,20 @@ const Packages = () => {
       title: "Student",
       price: "Registration Fee + Author Budget",
       points: [
-        "Legal Services",
-        "Basic Editing Services",
-        "Selling Services",
-        "100% Royality",
+        "Affordable & Student Friendly",
+        "Enhance Writing Skills",
+        "Professional Editing Support",
+        "Publishing & Selling Assistance",
       ],
     },
     {
       title: "Standard",
       price: "₹9,999",
       points: [
-        "Legal Services",
-        "Extensive Editing Services",
-        "Selling Services Nationally & Globally",
-        "100% Royality",
+        "Book Leading Manager",
+        "Professional Designer",
+        "Easily Track Sales/ Writing Support",
+        "80% to 100% Royality",
       ],
     },
     {
@@ -37,10 +37,9 @@ const Packages = () => {
       title: "Elite",
       price: "₹49,999",
       points: [
-        "Legal Services",
-        "Pro Editing Services",
-        "Selling Services Nationally & Globally",
-        "Marketing Plan & Execution Plan",
+        "Best Seller / Film Promotion",
+        "Contract / Leading Contribution",
+        "Book Manager / Editor / Expert Guidance",
       ],
     },
   ];

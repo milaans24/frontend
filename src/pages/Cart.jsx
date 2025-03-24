@@ -5,12 +5,10 @@ import { useNavigate } from "react-router-dom";
 import Loader from "./Loader";
 import { toast } from "react-toastify";
 import { MdOutlineDeleteOutline } from "react-icons/md";
-
 const Cart = () => {
   const navigate = useNavigate();
   const isLoggedIn = useSelector((state) => state.auth.isLoggedIn);
   const backendLink = useSelector((state) => state.prod.link);
-
   const [cartBooks, setCartBooks] = useState([]);
   const [total, setTotal] = useState(0);
   const [address, setAddress] = useState("");
@@ -91,13 +89,14 @@ const Cart = () => {
       return;
     }
     try {
-      await axios.post(
+      console.log(total);
+      const res = await axios.post(
         `${backendLink}/api/v1/place-order`,
-        { order: cartBooks, address },
+        { order: cartBooks, address, total },
         { headers }
       );
-      toast.success("Order placed successfully!");
-      navigate("/profile/orderHistory");
+
+      navigate(`/manual-payment/${res.data.orderId}`);
     } catch (error) {
       console.error("Error placing order:", error);
     }
@@ -144,7 +143,7 @@ const Cart = () => {
               >
                 <div className="w-3/6 flex items-center gap-4">
                   <img
-                    src={item.bookId.url}
+                    src={item.bookId.urls[0]}
                     alt={item.bookId.title}
                     className="h-[4vh] md:h-[10vh] object-cover"
                   />

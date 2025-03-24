@@ -21,6 +21,9 @@ import Books from "./pages/Books";
 import Packages from "./pages/Packages";
 import SearchResult from "./pages/SearchResult";
 import ScrollToTop from "./components/ScrollToTop/ScrollToTop";
+import ManualPayments from "./pages/ManualPayments";
+import AboutUs from "./pages/AboutUs";
+import OurPolicy from "./pages/OurPolicy";
 const App = () => {
   const dispatch = useDispatch();
   const role = useSelector((state) => state.auth.role);
@@ -42,11 +45,14 @@ const App = () => {
       <Routes>
         <Route exact path="/" element={<Home />} />
         <Route path="/packages" element={<Packages />} />
+        <Route path="/about-us" element={<AboutUs />} />
+        <Route path="/our-policy" element={<OurPolicy />} />
         <Route path="/all-books" element={<Books />} />
         <Route path="/search" element={<SearchResult />} />
         <Route path="/view-book-details/:id" element={<ViewBookDetails />} />
         <Route path="/cart" element={<Cart />} />
         <Route path="/login" element={<Login />} />
+        <Route path="/manual-payment/:id" element={<ManualPayments />} />
         <Route path="/signup" element={<Signup />} />
         <Route path="/profile" element={<Profile />}>
           {role !== "admin" ? (

@@ -68,7 +68,7 @@ const ManualPayments = () => {
     <div className="px-8 md:px-10 py-4 md:py-12">
       <div className="flex gap-6">
         <div className="w-1/3">
-          <img src="./scanner2.jpg" alt="QR Code" className="h-[80vh]" />
+          <img src="https://res.cloudinary.com/dzgq7wugj/image/upload/v1742824591/scanner2_d07x5g.jpg" alt="QR Code" className="h-[80vh]" />
         </div>
         <div className="w-2/3">
           <h2 className="text-2xl font-medium">Scan the QR and Pay</h2>

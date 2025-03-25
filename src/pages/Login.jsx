@@ -6,9 +6,11 @@ import { authActions } from "../store/auth";
 import { toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import { Helmet } from "react-helmet-async";
+import { HiEye, HiEyeOff } from "react-icons/hi"; // Import eye icons
 
 const Login = () => {
   const [Data, setData] = useState({ usernameOrEmail: "", password: "" });
+  const [showPassword, setShowPassword] = useState(false); // State to toggle password visibility
   const navigate = useNavigate();
   const isLoggedIn = useSelector((state) => state.auth.isLoggedIn);
   const backendLink = useSelector((state) => state.prod.link);
@@ -97,16 +99,23 @@ const Login = () => {
               </div>
 
               {/* Password */}
-              <div className="mt-4">
+              <div className="mt-4 relative">
                 <input
-                  type="password"
-                  className="w-full mt-2 bg-zinc-200 rounded px-4 py-2 outline-none"
+                  type={showPassword ? "text" : "password"}
+                  className="w-full mt-2 bg-zinc-200 rounded px-4 py-2 outline-none pr-10"
                   placeholder="Password"
                   name="password"
                   value={Data.password}
                   onChange={change}
                   required
                 />
+                <button
+                  type="button"
+                  className="absolute right-3 top-[60%] transform -translate-y-1/2 text-gray-600"
+                  onClick={() => setShowPassword(!showPassword)}
+                >
+                  {showPassword ? <HiEyeOff size={20} /> : <HiEye size={20} />}
+                </button>
               </div>
 
               {/* Submit Button */}

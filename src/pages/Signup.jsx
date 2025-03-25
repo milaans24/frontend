@@ -4,6 +4,7 @@ import { useSelector } from "react-redux";
 import axios from "axios";
 import { toast } from "react-toastify";
 import { Helmet } from "react-helmet-async";
+import { HiEye, HiEyeOff } from "react-icons/hi";
 import "react-toastify/dist/ReactToastify.css";
 
 const Signup = () => {
@@ -16,6 +17,7 @@ const Signup = () => {
     password: "",
     address: "",
   });
+  const [showPassword, setShowPassword] = useState(false);
 
   if (isLoggedIn) {
     navigate("/");
@@ -84,15 +86,24 @@ const Signup = () => {
               onChange={change}
               required
             />
-            <input
-              type="password"
-              className="w-full mt-4 bg-zinc-200 rounded p-2 outline-none"
-              placeholder="Password"
-              name="password"
-              value={Data.password}
-              onChange={change}
-              required
-            />
+            <div className="relative mt-4">
+              <input
+                type={showPassword ? "text" : "password"}
+                className="w-full bg-zinc-200 rounded p-2 outline-none pr-10"
+                placeholder="Password"
+                name="password"
+                value={Data.password}
+                onChange={change}
+                required
+              />
+              <button
+                type="button"
+                className="absolute right-3 top-[50%] transform -translate-y-1/2 text-gray-600"
+                onClick={() => setShowPassword(!showPassword)}
+              >
+                {showPassword ? <HiEyeOff size={20} /> : <HiEye size={20} />}
+              </button>
+            </div>
             <textarea
               className="w-full mt-4 bg-zinc-200 rounded p-2 outline-none"
               rows="5"

@@ -16,6 +16,7 @@ const SeeUserData = ({ userDivData, userDiv, setuserDiv, PaymentData }) => {
               <RxCross1 />
             </button>
           </div>
+          <hr className="my-4" />
           <div className="mt-2">
             <label htmlFor="">
               Username :{" "}
@@ -43,6 +44,12 @@ const SeeUserData = ({ userDivData, userDiv, setuserDiv, PaymentData }) => {
             <label htmlFor="">
               Address :{" "}
               <span className="font-semibold">{userDivData.address}</span>
+            </label>
+          </div>
+          <div className="mt-4">
+            <label htmlFor="">
+              Mobile Number :{" "}
+              <span className="font-semibold">{userDivData.mobileNumber}</span>
             </label>
           </div>
         </div>

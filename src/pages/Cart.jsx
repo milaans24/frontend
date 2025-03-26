@@ -19,6 +19,33 @@ const Cart = () => {
     id: localStorage.getItem("id"),
     authorization: `Bearer ${localStorage.getItem("token")}`,
   };
+  const [mobileNumber, setMobileNumber] = useState("");
+
+  const placeOrder = async () => {
+    if (!address.trim()) {
+      toast.error("Please enter a shipping address");
+      return;
+    }
+    if (!mobileNumber.trim()) {
+      toast.error("Please enter a valid mobile number");
+      return;
+    }
+    if (mobileNumber.trim().length < 10 || mobileNumber.trim().length > 10) {
+      toast.error("Please enter a valid mobile number");
+      return;
+    }
+    try {
+      const res = await axios.post(
+        `${backendLink}/api/v1/place-order`,
+        { order: cartBooks, address, mobileNumber, total },
+        { headers }
+      );
+
+      navigate(`/manual-payment/${res.data.orderId}`);
+    } catch (error) {
+      console.error("Error placing order:", error);
+    }
+  };
 
   useEffect(() => {
     if (!isLoggedIn) {
@@ -82,25 +109,6 @@ const Cart = () => {
       dispatch(authActions.userCart(res.data.cartSize));
     } catch (error) {
       console.error("Error removing item:", error);
-    }
-  };
-
-  const placeOrder = async () => {
-    if (!address.trim()) {
-      toast.error("Please enter a shipping address ");
-      return;
-    }
-    try {
-      console.log(total);
-      const res = await axios.post(
-        `${backendLink}/api/v1/place-order`,
-        { order: cartBooks, address, total },
-        { headers }
-      );
-
-      navigate(`/manual-payment/${res.data.orderId}`);
-    } catch (error) {
-      console.error("Error placing order:", error);
     }
   };
 
@@ -197,13 +205,24 @@ const Cart = () => {
               <h2>{cartBooks.length} Items</h2> <h2>₹ {total}</h2>
             </div>
             <div className="my-8">
-              <h2 className="font-semibold">SHIPPING</h2>
+              <h2 className="font-semibold">Shipping Address</h2>
               <textarea
                 className="mt-4 border border-black rounded w-full px-4 py-2"
                 placeholder="Enter Delivery Address"
                 value={address}
                 onChange={(e) => setAddress(e.target.value)}
               ></textarea>
+            </div>
+            <div className="my-4">
+              <h2 className="font-semibold">Mobile Number</h2>
+              <input
+                type="number"
+                required
+                className="mt-2 border border-black rounded w-full px-4 py-2"
+                placeholder="Enter Mobile Number"
+                value={mobileNumber}
+                onChange={(e) => setMobileNumber(e.target.value)}
+              ></input>
             </div>
             <button
               className="bg-sky-900 rounded px-4 py-2 w-full text-white my-8 font-semibold hover:bg-sky-800"

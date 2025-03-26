@@ -229,7 +229,11 @@ const AllOrders = () => {
                   className="text-xl hover:text-orange-500"
                   onClick={() => {
                     setuserDiv("fixed");
-                    setuserDivData({ ...items.user, address: items.address });
+                    setuserDivData({
+                      ...items.user,
+                      address: items.address,
+                      mobileNumber: items.mobileNumber,
+                    });
                     setPaymentData({
                       tId: items.transactionId,
                       total: items.total,

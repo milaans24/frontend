@@ -1,10 +1,11 @@
 import React, { useEffect, useState } from "react";
 import axios from "axios";
-import { useSelector } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import { useNavigate } from "react-router-dom";
 import Loader from "./Loader";
 import { toast } from "react-toastify";
 import { MdOutlineDeleteOutline } from "react-icons/md";
+import { authActions } from "../store/auth";
 const Cart = () => {
   const navigate = useNavigate();
   const isLoggedIn = useSelector((state) => state.auth.isLoggedIn);
@@ -13,7 +14,7 @@ const Cart = () => {
   const [total, setTotal] = useState(0);
   const [address, setAddress] = useState("");
   const [loading, setLoading] = useState(true);
-
+  const dispatch = useDispatch();
   const headers = {
     id: localStorage.getItem("id"),
     authorization: `Bearer ${localStorage.getItem("token")}`,
@@ -72,12 +73,13 @@ const Cart = () => {
 
   const deleteItem = async (id) => {
     try {
-      await axios.put(
+      const res = await axios.put(
         `${backendLink}/api/v1/remove-from-cart/${id}`,
         {},
         { headers }
       );
       setCartBooks(cartBooks.filter((item) => item.bookId._id !== id));
+      dispatch(authActions.userCart(res.data.cartSize));
     } catch (error) {
       console.error("Error removing item:", error);
     }

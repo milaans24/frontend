@@ -2,7 +2,7 @@ import { createSlice } from "@reduxjs/toolkit";
 
 const authSlice = createSlice({
   name: "auth",
-  initialState: { isLoggedIn: false, role: "user", userCartTotal: 0 },
+  initialState: { isLoggedIn: false, role: "user", userCart: 0 },
   reducers: {
     login(state) {
       state.isLoggedIn = true;
@@ -14,9 +14,9 @@ const authSlice = createSlice({
       const role = action.payload;
       state.role = role;
     },
-    userCartTotal(state, action) {
+    userCart(state, action) {
       const total = action.payload;
-      state.userCartTotal = total;
+      state.userCart = total;
     },
   },
 });

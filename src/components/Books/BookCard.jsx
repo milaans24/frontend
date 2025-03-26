@@ -1,16 +1,33 @@
 import React from "react";
 import { Link } from "react-router-dom";
 import axios from "axios";
-import { useSelector } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import { toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
+import { authActions } from "../../store/auth";
 const BookCard = ({ image, title, author, price, bookid, fav }) => {
+  const isLoggedIn = useSelector((state) => state.auth.isLoggedIn);
+  const dispatch = useDispatch();
   const headers = {
     bookid: bookid,
     id: localStorage.getItem("id"),
     authorization: `Bearer ${localStorage.getItem("token")}`,
   };
   const backendLink = useSelector((state) => state.prod.link);
+  const addToCart = async () => {
+    try {
+      const response = await axios.put(
+        `${backendLink}/api/v1/add-to-cart`,
+        {},
+        { headers }
+      );
+      dispatch(authActions.userCart(response.data.cartSize));
+      toast.success(response.data.message);
+    } catch (error) {
+      console.log(error);
+      toast.error("Failed to add to cart");
+    }
+  };
   const removeFromFavourite = async () => {
     try {
       const response = await axios.put(
@@ -20,11 +37,11 @@ const BookCard = ({ image, title, author, price, bookid, fav }) => {
       );
       toast.success(response.data.message);
     } catch (error) {
-      console.log(error);
+      //console.log(error);
     }
   };
   return (
-    <div className="w-full border shadow border-zinc-300  text-zinc-900 rounded">
+    <div className="w-full border shadow border-zinc-300  text-zinc-900 rounded flex flex-col justify-between">
       <Link to={`/view-book-details/${bookid}`} className="">
         <img src={image} alt="book" className="h-84 object-cover" />
 
@@ -45,6 +62,16 @@ const BookCard = ({ image, title, author, price, bookid, fav }) => {
           )}
         </div>
       </Link>
+      {isLoggedIn && (
+        <div>
+          <button
+            className="bg-sky-900 w-full text-center text-white py-2 rounded hover:bg-sky-800 transition-all duration-300"
+            onClick={addToCart}
+          >
+            Buy Book
+          </button>
+        </div>
+      )}
     </div>
   );
 };

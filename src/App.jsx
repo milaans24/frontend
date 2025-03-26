@@ -24,9 +24,19 @@ import ScrollToTop from "./components/ScrollToTop/ScrollToTop";
 import ManualPayments from "./pages/ManualPayments";
 import AboutUs from "./pages/AboutUs";
 import OurPolicy from "./pages/OurPolicy";
+import ForgotPassword from "./pages/ForgotPassword";
+import ResetPassword from "./pages/ResetPassword";
+import axios from "axios";
 const App = () => {
   const dispatch = useDispatch();
   const role = useSelector((state) => state.auth.role);
+
+  const headers = {
+    id: localStorage.getItem("id"),
+    authorization: `Bearer ${localStorage.getItem("token")}`,
+  };
+
+  const backendLink = useSelector((state) => state.prod.link);
   useEffect(() => {
     if (
       localStorage.getItem("id") &&
@@ -35,6 +45,13 @@ const App = () => {
     ) {
       dispatch(authActions.login());
       dispatch(authActions.changeRole(localStorage.getItem("role")));
+      const fetch = async () => {
+        const response = await axios.get(`${backendLink}/api/v1/getUserData`, {
+          headers,
+        });
+        dispatch(authActions.userCart(response.data.cart.books.length));
+      };
+      fetch();
     }
   }, []);
   return (
@@ -52,6 +69,8 @@ const App = () => {
         <Route path="/view-book-details/:id" element={<ViewBookDetails />} />
         <Route path="/cart" element={<Cart />} />
         <Route path="/login" element={<Login />} />
+        <Route path="/forgot-password" element={<ForgotPassword />} />
+        <Route path="/reset-password/:token" element={<ResetPassword />} />
         <Route path="/manual-payment/:id" element={<ManualPayments />} />
         <Route path="/signup" element={<Signup />} />
         <Route path="/profile" element={<Profile />}>

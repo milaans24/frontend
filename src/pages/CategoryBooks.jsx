@@ -1,18 +1,20 @@
 import React, { useState, useEffect } from "react";
 import BookCard from "../components/Books/BookCard";
 import axios from "axios";
+import { useSelector } from "react-redux";
 const CategoryBooks = () => {
   // Get the current URL path
   const path = window.location.pathname;
   // Extract the category string after '/all-books/'
   const category = path.substring(path.lastIndexOf("/") + 1);
   const [Books, setBooks] = useState([]);
-  console.log(category);
+  const backendLink = useSelector((state) => state.prod.link);
+  // console.log(category);
   useEffect(() => {
     window.scrollTo(0, 0);
     const fetch = async () => {
       const response = await axios.get(
-        `http://localhost:1000/api/v1/books-by-category/${category}`
+        `${backendLink}/api/v1/books-by-category/${category}`
       );
       setBooks(response.data.data);
     };

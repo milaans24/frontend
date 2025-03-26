@@ -4,6 +4,8 @@ import { useSelector } from "react-redux";
 const Navbar = () => {
   const isLoggedIn = useSelector((state) => state.auth.isLoggedIn);
   const role = useSelector((state) => state.auth.role);
+  const cart = useSelector((state) => state.auth.userCart);
+  //console.log(cart);
   var links = [
     {
       title: "Home",
@@ -14,7 +16,7 @@ const Navbar = () => {
       link: "/all-books",
     },
     {
-      title: "Packages",
+      title: "Publish Your Book",
       link: "/packages",
     },
     {
@@ -91,11 +93,16 @@ const Navbar = () => {
                     </div>
                   ) : (
                     <div
-                      className="mx-3 font-semibold hover:text-sky-900 text-zinc-900  rounded transition-all duration-500 hover:cursor-pointer"
+                      className="mx-3 relative font-semibold hover:text-sky-900 text-zinc-900  rounded transition-all duration-500 hover:cursor-pointer"
                       key={i}
                     >
                       <Link to={`${items.link}`} className="text-normal">
                         {items.title}{" "}
+                        {items.title === "Cart" && (
+                          <span className="text-white px-1  rounded-full text-sm font-normal bg-red-600">
+                            {cart}
+                          </span>
+                        )}
                       </Link>
                     </div>
                   )}
@@ -151,6 +158,11 @@ const Navbar = () => {
                     onClick={() => setNav("hidden")}
                   >
                     {items.title}{" "}
+                    {items.title === "Cart" && (
+                      <span className="text-white px-1  rounded-full text-sm font-normal bg-red-600">
+                        {cart}
+                      </span>
+                    )}
                   </Link>
                 </div>
               )}

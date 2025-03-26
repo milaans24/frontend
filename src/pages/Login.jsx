@@ -117,6 +117,9 @@ const Login = () => {
                   {showPassword ? <HiEyeOff size={20} /> : <HiEye size={20} />}
                 </button>
               </div>
+              <div className="mt-2 text-sm font-semibold text-zinc-600 hover:text-sky-800 transition-all duration-300">
+                <Link to="/forgot-password">Forgot Password?</Link>
+              </div>
 
               {/* Submit Button */}
               <div className="mt-4">

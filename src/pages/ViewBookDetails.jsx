@@ -4,7 +4,7 @@ import { FaCartShopping } from "react-icons/fa6";
 import { GoHeartFill } from "react-icons/go";
 import { GrLanguage } from "react-icons/gr";
 import { Link, useNavigate, useParams } from "react-router-dom";
-import { useSelector } from "react-redux";
+import { useSelector, useDispatch } from "react-redux";
 import { FaRegEdit } from "react-icons/fa";
 import { MdDelete } from "react-icons/md";
 import { Helmet } from "react-helmet-async";
@@ -16,6 +16,7 @@ import "swiper/css";
 import "swiper/css/navigation";
 import "swiper/css/pagination";
 import { Navigation, Pagination } from "swiper/modules";
+import { authActions } from "../store/auth";
 
 const ViewBookDetails = () => {
   const { id } = useParams();
@@ -25,7 +26,7 @@ const ViewBookDetails = () => {
   const [Book, setBook] = useState();
   const [showConfirm, setShowConfirm] = useState(false);
   const backendLink = useSelector((state) => state.prod.link);
-
+  const dispatch = useDispatch();
   useEffect(() => {
     window.scrollTo(0, 0);
     const fetch = async () => {
@@ -67,6 +68,7 @@ const ViewBookDetails = () => {
         {},
         { headers }
       );
+      dispatch(authActions.userCart(response.data.cartSize));
       toast.success(response.data.message);
     } catch (error) {
       console.log(error);

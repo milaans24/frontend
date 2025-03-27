@@ -16,8 +16,12 @@ const Footer = () => {
       link: "/our-policy",
     },
     {
-      title: "All Books",
-      link: "/all-books",
+      title: "BookStore",
+      link: "/bookstore",
+    },
+    {
+      title: "Publish Your Book",
+      link: "/packages",
     },
   ];
   return (
@@ -49,7 +53,7 @@ const Footer = () => {
               <Link
                 to={items.link}
                 key={i}
-                className="hover:text-blue-600 text-zinc-800 transition-all duration-300"
+                className="hover:text-blue-600 text-zinc-800 transition-all duration-300 whitespace-nowrap"
               >
                 {items.title}{" "}
               </Link>

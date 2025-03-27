@@ -12,8 +12,8 @@ const Navbar = () => {
       link: "/",
     },
     {
-      title: "All Books",
-      link: "/all-books",
+      title: "BookStore",
+      link: "/bookstore",
     },
     {
       title: "Publish Your Book",

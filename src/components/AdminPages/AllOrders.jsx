@@ -231,8 +231,10 @@ const AllOrders = () => {
                     setuserDiv("fixed");
                     setuserDivData({
                       ...items.user,
+                      name: items.name,
                       address: items.address,
                       mobileNumber: items.mobileNumber,
+                      pinCode: items.pinCode,
                     });
                     setPaymentData({
                       tId: items.transactionId,

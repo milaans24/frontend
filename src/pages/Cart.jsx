@@ -14,7 +14,10 @@ const Cart = () => {
   const [total, setTotal] = useState(0);
   const [address, setAddress] = useState("");
   const [loading, setLoading] = useState(true);
+  const [Name, setName] = useState("");
   const dispatch = useDispatch();
+  const [PinCode, setPinCode] = useState();
+
   const headers = {
     id: localStorage.getItem("id"),
     authorization: `Bearer ${localStorage.getItem("token")}`,
@@ -34,10 +37,21 @@ const Cart = () => {
       toast.error("Please enter a valid mobile number");
       return;
     }
+    if (PinCode.trim().length < 6 || PinCode.trim().length > 6) {
+      toast.error("Please enter a valid pin code");
+      return;
+    }
     try {
       const res = await axios.post(
         `${backendLink}/api/v1/place-order`,
-        { order: cartBooks, address, mobileNumber, total },
+        {
+          order: cartBooks,
+          address,
+          mobileNumber,
+          total: cartBooks.length * 50 + total,
+          Name,
+          PinCode,
+        },
         { headers }
       );
 
@@ -111,7 +125,7 @@ const Cart = () => {
       console.error("Error removing item:", error);
     }
   };
-
+  // console.log(cartBooks);
   return (
     <div className="h-auto">
       {loading ? (
@@ -198,34 +212,64 @@ const Cart = () => {
               </div>
             ))}
           </div>
-          <div className="bg-zinc-100 h-auto md:min-h-screen w-full md:w-1/3 px-8">
+          <div className="bg-zinc-100 h-auto md:min-h-screen w-full md:w-1/3 px-8 pb-8">
             <h1 className="my-8 text-3xl font-semibold">Order Summary</h1>
             <hr className="my-8" />
-            <div className="mt-3 flex justify-between text-xl">
+            <div className="mt-2 flex justify-between">
               <h2>{cartBooks.length} Items</h2> <h2>₹ {total}</h2>
             </div>
+            <div className="mt-2 flex justify-between ">
+              <h2> Delivery Charges</h2> <h2>₹{cartBooks.length * 50}</h2>
+            </div>
+            <hr className="mt-2" />
+            <div className="mt-2 flex justify-between ">
+              <h2> Total</h2> <h2>₹{cartBooks.length * 50 + total}</h2>
+            </div>
             <div className="my-8">
-              <h2 className="font-semibold">Shipping Address</h2>
+              <div className="my-4">
+                <h2 className="text-sm">Your Full Name</h2>
+                <input
+                  type="text"
+                  required
+                  className="mt-2 border border-black rounded w-full px-4 py-2"
+                  placeholder="Enter Your Full Name"
+                  value={Name}
+                  onChange={(e) => setName(e.target.value)}
+                ></input>
+              </div>
+              <div className="my-4">
+                <h2 className="text-sm">Mobile Number</h2>
+                <input
+                  type="number"
+                  required
+                  className="mt-2 border border-black rounded w-full px-4 py-2"
+                  placeholder="Enter Mobile Number"
+                  value={mobileNumber}
+                  onChange={(e) => setMobileNumber(e.target.value)}
+                ></input>
+              </div>
+              <div className="my-4">
+                <h2 className="text-sm">PIN Code</h2>
+                <input
+                  type="number"
+                  required
+                  className="mt-2 border border-black rounded w-full px-4 py-2"
+                  placeholder="Enter PIN Code"
+                  value={PinCode}
+                  onChange={(e) => setPinCode(e.target.value)}
+                ></input>
+              </div>
+              <h2 className="text-sm">Shipping Address</h2>
               <textarea
-                className="mt-4 border border-black rounded w-full px-4 py-2"
+                className="mt-2 border border-black rounded w-full px-4 py-2"
                 placeholder="Enter Delivery Address"
                 value={address}
                 onChange={(e) => setAddress(e.target.value)}
               ></textarea>
             </div>
-            <div className="my-4">
-              <h2 className="font-semibold">Mobile Number</h2>
-              <input
-                type="number"
-                required
-                className="mt-2 border border-black rounded w-full px-4 py-2"
-                placeholder="Enter Mobile Number"
-                value={mobileNumber}
-                onChange={(e) => setMobileNumber(e.target.value)}
-              ></input>
-            </div>
+
             <button
-              className="bg-sky-900 rounded px-4 py-2 w-full text-white my-8 font-semibold hover:bg-sky-800"
+              className="bg-sky-900 rounded px-4 py-2 w-full text-white  font-semibold hover:bg-sky-800"
               onClick={placeOrder}
             >
               Checkout

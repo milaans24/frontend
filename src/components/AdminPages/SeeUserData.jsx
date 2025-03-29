@@ -23,7 +23,13 @@ const SeeUserData = ({ userDivData, userDiv, setuserDiv, PaymentData }) => {
               <span className="font-semibold">{userDivData.username}</span>
             </label>
           </div>
-          <div className="mt-4">
+          <div className="mt-2">
+            <label htmlFor="">
+              Full Name :{" "}
+              <span className="font-semibold">{userDivData.name}</span>
+            </label>
+          </div>
+          <div className="mt-2">
             <label htmlFor="">
               Email : <span className="font-semibold">{userDivData.email}</span>
             </label>
@@ -42,14 +48,20 @@ const SeeUserData = ({ userDivData, userDiv, setuserDiv, PaymentData }) => {
           </div>
           <div className="mt-4">
             <label htmlFor="">
-              Address :{" "}
-              <span className="font-semibold">{userDivData.address}</span>
+              Mobile Number :{" "}
+              <span className="font-semibold">{userDivData.mobileNumber}</span>
             </label>
           </div>
           <div className="mt-4">
             <label htmlFor="">
-              Mobile Number :{" "}
-              <span className="font-semibold">{userDivData.mobileNumber}</span>
+              Pin Code :{" "}
+              <span className="font-semibold">{userDivData.pinCode}</span>
+            </label>
+          </div>
+          <div className="mt-4">
+            <label htmlFor="">
+              Address :{" "}
+              <span className="font-semibold">{userDivData.address}</span>
             </label>
           </div>
         </div>

@@ -85,7 +85,7 @@ const OrderHistory = () => {
                 <div className="w-1/6 text-center">Sr.</div>
                 <div className="w-3/6">Book</div>
                 <div className="w-1/6 text-center">Quantity</div>
-                <div className="w-1/6 text-center">Price</div>
+                <div className="w-1/6 text-center">Price (per book)</div>
               </div>
               {order.books.map((item, i) => (
                 <div
@@ -102,9 +102,13 @@ const OrderHistory = () => {
                     </Link>
                   </div>
                   <div className="w-1/6  text-center">{item.quantity}</div>
-                  <div className="w-1/6 text-center">₹ {item.book.price}</div>
+                  <div className="w-1/6 text-center">₹{item.book.price}</div>
                 </div>
               ))}
+              <hr />
+              <div className="mt-4 flex justify-end">
+                Total : ₹{order.total} (including delivery charges)
+              </div>
             </div>
           ))}
         </div>

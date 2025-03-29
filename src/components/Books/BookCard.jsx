@@ -43,11 +43,14 @@ const BookCard = ({ image, title, author, price, bookid, fav }) => {
   return (
     <div className="w-full border shadow border-zinc-300  text-zinc-900 rounded flex flex-col justify-between">
       <Link to={`/view-book-details/${bookid}`} className="">
-        <img src={image} alt="book" className="h-84 object-cover" />
+        <img src={image} alt="book" className="h-84  object-cover" />
 
         <div className=" px-4 py-2">
           {" "}
-          <h1 className="mt-4  font-semibold">{title}</h1>
+          <h1 className="mt-4  font-semibold">
+            {title.slice(0, 20)}
+            {title.length > 20 ? <>...</> : <></>}
+          </h1>
           <p className="mt-1 text-zinc-700 text-sm font-semibold">
             Author: {author}
           </p>

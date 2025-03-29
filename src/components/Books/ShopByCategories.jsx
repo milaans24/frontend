@@ -29,11 +29,11 @@ const ShopByCategories = () => {
   };
   return (
     <div className="flex flex-col my-4 md:my-6 lg:my-12 md:h-auto">
-      <h1 className="text-3xl md:text-4xl lg:text-5xl text-center font-semibold">
+      {/*<h1 className="text-3xl md:text-4xl lg:text-5xl text-center font-semibold">
         Shop by Categories
-      </h1>
+      </h1>*/}
 
-      <div className="flex items-center justify-center mt-4 md:mt-8">
+      <div className="flex items-center justify-center mt-4">
         <form className="w-full md:w-4/6 bg-sky-900  h-12 rounded flex gap-8 px-8 text-zinc-200">
           <input
             type="input"
@@ -48,12 +48,12 @@ const ShopByCategories = () => {
           </button>
         </form>
       </div>
-      <hr className=" h-1  my-6 lg:my-12" />
-      <div className="grid grid-cols-3 md:grid-cols-6 gap-6 md:gap-10">
+
+      {/* <hr className=" h-1  my-6 lg:my-12" /> <div className="grid grid-cols-3 md:grid-cols-6 gap-6 md:gap-10">
         {cat &&
           cat.map((items) => (
             <Link
-              to={`/all-books`}
+              to={`/bookstore`}
               className="flex flex-col gap-2 items-center justify-center"
             >
               <div className="relative flex items-center justify-center">
@@ -84,7 +84,7 @@ const ShopByCategories = () => {
 
           <p className="font-bold text-sky-900 mt-4">Discounts</p>
         </Link>
-      </div>
+      </div>*/}
     </div>
   );
 };

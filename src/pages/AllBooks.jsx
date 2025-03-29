@@ -22,7 +22,7 @@ const AllBooks = () => {
     <div className="my-4 lg:my-12 md:h-auto">
       {!Books.length && <Loader />}
       <h1 className="text-center text-3xl font-semibold text-sky-900  mt-8 md:mt-0  md:mb-6 lg:mb-12">
-        Available Books
+        BookStore
       </h1>
       {Books.length > 0 && (
         <div className="h-auto md:px-12 mt-8">

@@ -6,27 +6,47 @@ import { useNavigate } from "react-router-dom";
 
 const PoetryPayment = () => {
   const [transactionId, setTransactionId] = useState("");
-  const [loading, setLoading] = useState(false); // Loading state
+  const [screenshot, setScreenshot] = useState(null);
+  const [loading, setLoading] = useState(false);
   const backendLink = useSelector((state) => state.prod.link);
   const navigate = useNavigate();
+
   const handleSubmit = async (e) => {
     e.preventDefault();
-    setLoading(true); // Start loading
+
+    // Check that ONLY ONE of the fields is filled
+    if ((transactionId && screenshot) || (!transactionId && !screenshot)) {
+      toast.error("Please provide screenshot.");
+      return;
+    }
+
+    setLoading(true);
     try {
       const token = sessionStorage.getItem("payment-verification-session");
-      const res = await axios.post(
-        `${backendLink}/api/v1/payment-verification`,
-        { transactionId, submissionId: token }
-      );
-      sessionStorage.clear("payment-verification-session");
-      //toast.success(res.data.message);
+
+      const formData = new FormData();
+      formData.append("submissionId", token);
+      if (transactionId) {
+        formData.append("transactionId", transactionId);
+      }
+      if (screenshot) {
+        formData.append("screenshot", screenshot);
+      }
+
+      await axios.post(`${backendLink}/api/v1/payment-verification`, formData, {
+        headers: { "Content-Type": "multipart/form-data" },
+      });
       toast.success("Payment Submitted");
+      sessionStorage.clear("payment-verification-session");
+
       setTransactionId("");
+      setScreenshot(null);
       navigate("/");
     } catch (error) {
-      toast.error("No submission found");
+      toast.error("Submission failed or not found.");
+      console.log(error);
     } finally {
-      setLoading(false); // Stop loading
+      setLoading(false);
     }
   };
 
@@ -49,20 +69,36 @@ const PoetryPayment = () => {
           <p className="text-lg">
             Amount: <span className="font-semibold">₹99</span>
           </p>
-          <mark>After paying, enter the payment transaction ID here</mark>
-          <form onSubmit={handleSubmit} className="mt-4">
+          <mark>After paying upload the screenshot.</mark>
+
+          <form onSubmit={handleSubmit} className="mt-4 space-y-4">
             <input
               type="text"
               placeholder="Enter the transaction ID"
-              required
               className="w-full bg-zinc-200 rounded px-4 py-2 outline-none"
               value={transactionId}
-              onChange={(e) => setTransactionId(e.target.value)}
+              onChange={(e) => {
+                setTransactionId(e.target.value);
+                if (e.target.value) setScreenshot(null); // Clear screenshot if transactionId is typed
+              }}
             />
+
+            <p className="mt-4 mb-1">Screenshot of payment</p>
+            <input
+              type="file"
+              accept="image/*"
+              required
+              onChange={(e) => {
+                setScreenshot(e.target.files[0]);
+                if (e.target.files[0]) setTransactionId(""); // Clear transactionId if image is uploaded
+              }}
+              className="w-full bg-zinc-200 rounded px-4 py-2"
+            />
+
             <button
               type="submit"
-              className="bg-sky-900 text-white px-4 py-2 hover:bg-sky-800 rounded mt-3"
-              disabled={loading} // Disable button when loading
+              className="bg-sky-900 text-white px-4 py-2 hover:bg-sky-800 rounded"
+              disabled={loading}
             >
               {loading ? (
                 <div className="flex items-center">

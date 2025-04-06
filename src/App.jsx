@@ -59,7 +59,8 @@ const App = () => {
   }, []);
   return (
     <div className="">
-      <MarqueeAdvertisement />
+      {/*   <MarqueeAdvertisement /> */}
+
       <Navbar />
       <ToastContainer position="top-right" autoClose={3000} />
       <ScrollToTop />

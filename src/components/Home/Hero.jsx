@@ -37,7 +37,7 @@ const Hero = () => {
 
   const formatTime = (value) => String(value).padStart(2, "0");
   return (
-    <div className="h-screen px-8 md:px-10 py-4 md:py-12">
+    <div className="h-auto lg:h-screen px-8 md:px-10 py-4 md:py-12">
       <Swiper
         modules={[Pagination, Autoplay]}
         spaceBetween={30}
@@ -91,7 +91,7 @@ const Hero = () => {
               <img
                 src="https://res.cloudinary.com/dzgq7wugj/image/upload/v1743922384/Beige_Feminine_Autumn_Floral_Aesthetic_Photo_Frame_Collage_Instagram_Post_qjnj1k.png"
                 alt="Poetry Competition"
-                className="rounded-2xl shadow-lg object-cover w-full max-w-md lg:max-w-full lg:h-[75vh]"
+                className="rounded-2xl shadow-lg  w-full max-w-md lg:max-w-full lg:h-auto"
               />
             </div>
 
@@ -154,15 +154,14 @@ const Hero = () => {
                   </div>
                 </div>
               )}
-
-              <div className="flex justify-center lg:justify-start mt-6">
+              {/*<div className="flex justify-center lg:justify-start mt-6">
                 <Link
                   to="/poetry-submission"
                   className="bg-orange-500 hover:bg-orange-600 text-white text-lg font-semibold py-3 px-8 rounded-xl shadow-md transition-all duration-300"
                 >
                   Register Now
                 </Link>
-              </div>
+              </div> */}
             </div>
           </div>
         </SwiperSlide>

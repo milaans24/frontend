@@ -27,6 +27,9 @@ import OurPolicy from "./pages/OurPolicy";
 import ForgotPassword from "./pages/ForgotPassword";
 import ResetPassword from "./pages/ResetPassword";
 import axios from "axios";
+import MarqueeAdvertisement from "./components/Marquee Advertisement/MarqueeAdvertisement";
+import PoetrySubmission from "./pages/PoetrySubmission";
+import PoetryPayment from "./pages/PoetryPayment";
 const App = () => {
   const dispatch = useDispatch();
   const role = useSelector((state) => state.auth.role);
@@ -56,12 +59,14 @@ const App = () => {
   }, []);
   return (
     <div className="">
+      <MarqueeAdvertisement />
       <Navbar />
       <ToastContainer position="top-right" autoClose={3000} />
       <ScrollToTop />
       <Routes>
         <Route exact path="/" element={<Home />} />
         <Route path="/packages" element={<Packages />} />
+        <Route path="/poetry-submission" element={<PoetrySubmission />} />
         <Route path="/about-us" element={<AboutUs />} />
         <Route path="/our-policy" element={<OurPolicy />} />
         <Route path="/bookstore" element={<Books />} />
@@ -72,6 +77,7 @@ const App = () => {
         <Route path="/forgot-password" element={<ForgotPassword />} />
         <Route path="/reset-password/:token" element={<ResetPassword />} />
         <Route path="/manual-payment/:id" element={<ManualPayments />} />
+        <Route path="/poetry-payment" element={<PoetryPayment />} />
         <Route path="/signup" element={<Signup />} />
         <Route path="/profile" element={<Profile />}>
           {role !== "admin" ? (

@@ -8,7 +8,7 @@ import { useState, useEffect } from "react";
 
 const Hero = () => {
   const calculateTimeLeft = () => {
-    const deadline = new Date("2025-04-14T23:59:59");
+    const deadline = new Date("2025-04-17T23:59:59");
     const difference = deadline - new Date();
 
     let timeLeft = {};
@@ -112,7 +112,7 @@ const Hero = () => {
                   Entry Fee: <span className="text-orange-600">₹99/-</span>
                 </h4>
                 <p>
-                  🗓️ <strong>Last Date:</strong> April 14, 2025
+                  🗓️ <strong>Last Date:</strong> April 17, 2025
                 </p>
                 <p>
                   📄 <strong>Submission Format:</strong> PDF only (Hindi /
@@ -154,14 +154,14 @@ const Hero = () => {
                   </div>
                 </div>
               )}
-              {/*<div className="flex justify-center lg:justify-start mt-6">
+              <div className="flex justify-center lg:justify-start mt-6">
                 <Link
                   to="/poetry-submission"
                   className="bg-orange-500 hover:bg-orange-600 text-white text-lg font-semibold py-3 px-8 rounded-xl shadow-md transition-all duration-300"
                 >
                   Register Now
                 </Link>
-              </div> */}
+              </div>
             </div>
           </div>
         </SwiperSlide>

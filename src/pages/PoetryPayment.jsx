@@ -14,9 +14,8 @@ const PoetryPayment = () => {
   const handleSubmit = async (e) => {
     e.preventDefault();
 
-    // Check that ONLY ONE of the fields is filled
-    if ((transactionId && screenshot) || (!transactionId && !screenshot)) {
-      toast.error("Please provide screenshot.");
+    if (!transactionId && !screenshot) {
+      talert("Please provide transaction ID and screenshot.");
       return;
     }
 
@@ -26,25 +25,21 @@ const PoetryPayment = () => {
 
       const formData = new FormData();
       formData.append("submissionId", token);
-      if (transactionId) {
-        formData.append("transactionId", transactionId);
-      }
-      if (screenshot) {
-        formData.append("screenshot", screenshot);
-      }
+      if (transactionId) formData.append("transactionId", transactionId);
+      if (screenshot) formData.append("screenshot", screenshot);
 
       await axios.post(`${backendLink}/api/v1/payment-verification`, formData, {
         headers: { "Content-Type": "multipart/form-data" },
       });
-      toast.success("Payment Submitted");
+
+      alert("Payment Submitted");
       sessionStorage.clear("payment-verification-session");
 
       setTransactionId("");
       setScreenshot(null);
       navigate("/");
     } catch (error) {
-      toast.error("Submission failed or not found.");
-      console.log(error);
+      alert(error.response?.data?.error || "Something went wrong");
     } finally {
       setLoading(false);
     }
@@ -69,7 +64,10 @@ const PoetryPayment = () => {
           <p className="text-lg">
             Amount: <span className="font-semibold">₹99</span>
           </p>
-          <mark>After paying upload the screenshot.</mark>
+          <mark>
+            You can either enter the Transaction ID or upload the screenshot or
+            both.
+          </mark>
 
           <form onSubmit={handleSubmit} className="mt-4 space-y-4">
             <input
@@ -77,21 +75,14 @@ const PoetryPayment = () => {
               placeholder="Enter the transaction ID"
               className="w-full bg-zinc-200 rounded px-4 py-2 outline-none"
               value={transactionId}
-              onChange={(e) => {
-                setTransactionId(e.target.value);
-                if (e.target.value) setScreenshot(null); // Clear screenshot if transactionId is typed
-              }}
+              onChange={(e) => setTransactionId(e.target.value)}
             />
 
             <p className="mt-4 mb-1">Screenshot of payment</p>
             <input
               type="file"
               accept="image/*"
-              required
-              onChange={(e) => {
-                setScreenshot(e.target.files[0]);
-                if (e.target.files[0]) setTransactionId(""); // Clear transactionId if image is uploaded
-              }}
+              onChange={(e) => setScreenshot(e.target.files[0])}
               className="w-full bg-zinc-200 rounded px-4 py-2"
             />
 

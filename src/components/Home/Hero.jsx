@@ -8,7 +8,7 @@ import { useState, useEffect } from "react";
 
 const Hero = () => {
   const calculateTimeLeft = () => {
-    const deadline = new Date("2025-04-17T23:59:59");
+    const deadline = new Date("2025-04-25T23:59:59");
     const difference = deadline - new Date();
 
     let timeLeft = {};
@@ -112,7 +112,7 @@ const Hero = () => {
                   Entry Fee: <span className="text-orange-600">₹99/-</span>
                 </h4>
                 <p>
-                  🗓️ <strong>Last Date:</strong> April 17, 2025
+                  🗓️ <strong>Last Date:</strong> April 25, 2025
                 </p>
                 <p>
                   📄 <strong>Submission Format:</strong> PDF only (Hindi /

@@ -1,6 +1,5 @@
 import React from "react";
 import { FaCrown } from "react-icons/fa";
-import { motion } from "framer-motion";
 
 const winners = [
   { name: "Niti Goyal", points: 339, color: "bg-yellow-200", crown: true },
@@ -19,11 +18,7 @@ const LeaderBoard = () => {
 
       <div className="max-w-3xl mx-auto grid gap-6">
         {winners.map((winner, index) => (
-          <motion.div
-            key={winner.name}
-            initial={{ opacity: 0, y: 40 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ delay: index * 0.2 }}
+          <div
             className={`rounded-xl shadow-xl border-2 border-white p-5 ${winner.color} flex items-center justify-between relative overflow-hidden`}
           >
             {winner.crown && (
@@ -35,7 +30,7 @@ const LeaderBoard = () => {
             <div className="text-right text-md font-semibold text-purple-700">
               {winner.points} / 400
             </div>
-          </motion.div>
+          </div>
         ))}
       </div>
 

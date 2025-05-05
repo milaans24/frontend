@@ -8,6 +8,7 @@ import FAQ from "../components/Home/FAQ";
 import Testimonial from "../components/Home/Testimonial";
 import SellingPartner from "../components/Home/SellingPartner";
 import { Helmet } from "react-helmet-async";
+import LeaderBoard from "../components/Home/LeaderBoard";
 const Home = () => {
   return (
     <>
@@ -23,6 +24,7 @@ const Home = () => {
         />
       </Helmet>
       <Hero />
+      <LeaderBoard />
       <BookPublishingProcess />
       <Packages />
       <Testimonial />

@@ -2,7 +2,7 @@ import axios from "axios";
 import { toast } from "react-toastify";
 
 const axiosInstance = axios.create({
-  baseURL: "http://localhost:1000", // or dynamic from redux if needed
+  baseURL: "https://milaan-backend-71ny.onrender.com", // or dynamic from redux if needed
   withCredentials: true, // use this only if using cookies
 });
 

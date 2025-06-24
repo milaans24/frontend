@@ -1,5 +1,5 @@
-import React, { useState, useEffect } from "react";
-import axios from "axios";
+import { useState, useEffect } from "react";
+import axiosInstance from "../../extras/axiosInstance";
 import { useNavigate, useParams } from "react-router-dom";
 import { useSelector } from "react-redux";
 
@@ -21,7 +21,9 @@ const UpdateBooks = () => {
   useEffect(() => {
     window.scrollTo(0, 0);
     const fetch = async () => {
-      const res = await axios.get(`${backendLink}/api/v1/get-book-by-id/${id}`);
+      const res = await axiosInstance.get(
+        `${backendLink}/api/v1/get-book-by-id/${id}`
+      );
       setData({
         images: res.data.data.urls || [],
         title: res.data.data.title,
@@ -74,7 +76,7 @@ const UpdateBooks = () => {
       ) {
         alert("All fields are required");
       } else {
-        const response = await axios.put(
+        const response = await axiosInstance.put(
           `${backendLink}/api/v1/update-book`,
           Data,
           { headers }

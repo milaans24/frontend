@@ -1,6 +1,5 @@
-import React, { useEffect } from "react";
+import React from "react";
 import Hero from "../components/Home/Hero";
-import RecentlyAdded from "../components/Home/RecentlyAdded";
 import BookPublishingProcess from "../components/Home/BookPublishingProcess";
 import Contact from "../components/Home/Contact";
 import Packages from "../components/Home/Packages";
@@ -9,6 +8,7 @@ import Testimonial from "../components/Home/Testimonial";
 import SellingPartner from "../components/Home/SellingPartner";
 import { Helmet } from "react-helmet-async";
 import LeaderBoard from "../components/Home/LeaderBoard";
+import EventCategories from "../components/Home/EventCategories";
 const Home = () => {
   return (
     <>
@@ -24,7 +24,9 @@ const Home = () => {
         />
       </Helmet>
       <Hero />
-      <LeaderBoard />
+      <EventCategories />
+      {/* <LeaderBoard /> */}
+
       <BookPublishingProcess />
       <Packages />
       <Testimonial />

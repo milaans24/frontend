@@ -1,6 +1,6 @@
 import React, { useState } from "react";
 import { useParams, useNavigate } from "react-router-dom";
-import axios from "axios";
+import axiosInstance from "../extras/axiosInstance";
 import { toast } from "react-toastify";
 import { useSelector } from "react-redux";
 import { FaEye, FaEyeSlash } from "react-icons/fa"; // 👈 Import React Icons
@@ -26,7 +26,7 @@ const ResetPassword = () => {
       return;
     }
     try {
-      const response = await axios.post(
+      const response = await axiosInstance.post(
         `${backendLink}/api/v1/reset-password`,
         {
           token,

@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from "react";
 import BookCard from "../components/Books/BookCard";
-import axios from "axios";
+import axiosInstance from "../extras/axiosInstance";
 import { useSelector } from "react-redux";
 const CategoryBooks = () => {
   // Get the current URL path
@@ -13,7 +13,7 @@ const CategoryBooks = () => {
   useEffect(() => {
     window.scrollTo(0, 0);
     const fetch = async () => {
-      const response = await axios.get(
+      const response = await axiosInstance.get(
         `${backendLink}/api/v1/books-by-category/${category}`
       );
       setBooks(response.data.data);

@@ -1,6 +1,6 @@
 import React, { useState } from "react";
 import { useSelector } from "react-redux";
-import axios from "axios";
+import axiosInstance from "../extras/axiosInstance";
 import { toast } from "react-toastify";
 import { useNavigate } from "react-router-dom";
 
@@ -28,9 +28,13 @@ const PoetryPayment = () => {
       if (transactionId) formData.append("transactionId", transactionId);
       if (screenshot) formData.append("screenshot", screenshot);
 
-      await axios.post(`${backendLink}/api/v1/payment-verification`, formData, {
-        headers: { "Content-Type": "multipart/form-data" },
-      });
+      await axiosInstance.post(
+        `${backendLink}/api/v1/payment-verification`,
+        formData,
+        {
+          headers: { "Content-Type": "multipart/form-data" },
+        }
+      );
 
       alert("Payment Submitted");
       sessionStorage.clear("payment-verification-session");

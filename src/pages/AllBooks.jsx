@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from "react";
 import BookCard from "../components/Books/BookCard";
-import axios from "axios";
+import axiosInstance from "../extras/axiosInstance";
 import Loader from "./Loader";
 import { useSelector } from "react-redux";
 const AllBooks = () => {
@@ -9,7 +9,9 @@ const AllBooks = () => {
   useEffect(() => {
     const fetchAllBooks = async () => {
       try {
-        const response = await axios.get(`${backendLink}/api/v1/get-all-books`);
+        const response = await axiosInstance.get(
+          `${backendLink}/api/v1/get-all-books`
+        );
         setBooks(response.data.data);
       } catch (error) {
         console.error("Error fetching all books", error);

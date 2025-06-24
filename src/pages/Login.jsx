@@ -1,7 +1,7 @@
 import React, { useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import { useSelector, useDispatch } from "react-redux";
-import axios from "axios";
+import axiosInstance from "../extras/axiosInstance";
 import { authActions } from "../store/auth";
 import { toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
@@ -32,7 +32,10 @@ const Login = () => {
     e.preventDefault();
 
     try {
-      const response = await axios.post(`${backendLink}/api/v1/login`, Data);
+      const response = await axiosInstance.post(
+        `${backendLink}/api/v1/login`,
+        Data
+      );
 
       setData({ usernameOrEmail: "", password: "" });
 

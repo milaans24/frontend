@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from "react";
-import axios from "axios";
+import axiosInstance from "../extras/axiosInstance";
 import { useDispatch, useSelector } from "react-redux";
 import { useNavigate } from "react-router-dom";
 import Loader from "./Loader";
@@ -42,7 +42,7 @@ const Cart = () => {
       return;
     }
     try {
-      const res = await axios.post(
+      const res = await axiosInstance.post(
         `${backendLink}/api/v1/place-order`,
         {
           order: cartBooks,
@@ -67,9 +67,12 @@ const Cart = () => {
     } else {
       const fetchCart = async () => {
         try {
-          const res = await axios.get(`${backendLink}/api/v1/get-user-cart`, {
-            headers,
-          });
+          const res = await axiosInstance.get(
+            `${backendLink}/api/v1/get-user-cart`,
+            {
+              headers,
+            }
+          );
           if (res.data.status === "Success") {
             setCartBooks(res.data.data.books || []);
             setAddress(res.data.data.address || "");
@@ -97,7 +100,7 @@ const Cart = () => {
     if (newQuantity < 1) return;
 
     try {
-      await axios.put(
+      await axiosInstance.put(
         `${backendLink}/api/v1/update-cart`,
         { bookId: id, quantity: newQuantity },
         { headers }
@@ -114,7 +117,7 @@ const Cart = () => {
 
   const deleteItem = async (id) => {
     try {
-      const res = await axios.put(
+      const res = await axiosInstance.put(
         `${backendLink}/api/v1/remove-from-cart/${id}`,
         {},
         { headers }

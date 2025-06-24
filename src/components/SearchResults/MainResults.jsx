@@ -2,7 +2,7 @@ import React, { useEffect, useState } from "react";
 import { useSelector } from "react-redux";
 import Loader from "../../pages/Loader";
 import BookCard from "../Books/BookCard";
-import axios from "axios";
+import axiosInstance from "../../extras/axiosInstance";
 
 const MainResults = ({ value }) => {
   const [Books, setBooks] = useState([]);
@@ -13,7 +13,7 @@ const MainResults = ({ value }) => {
     const fetchAllBooks = async () => {
       setLoading(true);
       try {
-        const response = await axios.get(
+        const response = await axiosInstance.get(
           `${backendLink}/api/v1/search?book=${value}`
         );
         setBooks(response.data.data);

@@ -26,10 +26,14 @@ import AboutUs from "./pages/AboutUs";
 import OurPolicy from "./pages/OurPolicy";
 import ForgotPassword from "./pages/ForgotPassword";
 import ResetPassword from "./pages/ResetPassword";
-import axios from "axios";
-import MarqueeAdvertisement from "./components/Marquee Advertisement/MarqueeAdvertisement";
-import PoetrySubmission from "./pages/PoetrySubmission";
+import axiosInstance from "./extras/axiosInstance";
 import PoetryPayment from "./pages/PoetryPayment";
+import AdminEventHandler from "./pages/AdminEventHandler";
+import "react-quill/dist/quill.snow.css";
+import Events from "./pages/Events";
+import EventDetails from "./pages/EventDetails";
+import EventFormSubmission from "./pages/EventFormSubmission";
+
 const App = () => {
   const dispatch = useDispatch();
   const role = useSelector((state) => state.auth.role);
@@ -49,9 +53,12 @@ const App = () => {
       dispatch(authActions.login());
       dispatch(authActions.changeRole(localStorage.getItem("role")));
       const fetch = async () => {
-        const response = await axios.get(`${backendLink}/api/v1/getUserData`, {
-          headers,
-        });
+        const response = await axiosInstance.get(
+          `${backendLink}/api/v1/getUserData`,
+          {
+            headers,
+          }
+        );
         dispatch(authActions.userCart(response.data.cart.books.length));
       };
       fetch();
@@ -59,17 +66,17 @@ const App = () => {
   }, []);
   return (
     <div className="">
-      {/* <MarqueeAdvertisement />  */}
-
       <Navbar />
       <ToastContainer position="top-right" autoClose={3000} />
       <ScrollToTop />
       <Routes>
         <Route exact path="/" element={<Home />} />
         <Route path="/packages" element={<Packages />} />
-        <Route path="/poetry-submission" element={<PoetrySubmission />} />
+        <Route path="/event-submission/:id" element={<EventFormSubmission />} />
         <Route path="/about-us" element={<AboutUs />} />
         <Route path="/our-policy" element={<OurPolicy />} />
+        <Route path="/event/:id" element={<Events />} />
+        <Route path="/event-details/:id" element={<EventDetails />} />
         <Route path="/bookstore" element={<Books />} />
         <Route path="/search" element={<SearchResult />} />
         <Route path="/view-book-details/:id" element={<ViewBookDetails />} />
@@ -87,7 +94,11 @@ const App = () => {
             <Route index element={<AllOrders />} />
           )}
           {role === "admin" && (
-            <Route path="/profile/add-book" element={<AddBook />} />
+            <>
+              {" "}
+              <Route path="/profile/add-book" element={<AddBook />} />
+              <Route path="/profile/events" element={<AdminEventHandler />} />
+            </>
           )}
           <Route path="/profile/OrderHistory" element={<OrderHistory />} />
           <Route path="/profile/settings" element={<Settings />} />

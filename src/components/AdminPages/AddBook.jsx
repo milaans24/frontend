@@ -1,5 +1,5 @@
-import React, { useEffect, useState } from "react";
-import axios from "axios";
+import { useEffect, useState } from "react";
+import axiosInstance from "../../extras/axiosInstance";
 import { IoAdd, IoTrash } from "react-icons/io5";
 import { useSelector } from "react-redux";
 
@@ -45,9 +45,12 @@ const AddBook = () => {
 
   useEffect(() => {
     const fetchCat = async () => {
-      const response = await axios.get(`${backendLink}/api/v1/categories`, {
-        headers,
-      });
+      const response = await axiosInstance.get(
+        `${backendLink}/api/v1/categories`,
+        {
+          headers,
+        }
+      );
       setCategories(response.data.categories);
     };
     fetchCat();
@@ -59,7 +62,7 @@ const AddBook = () => {
       if (AddNewCat.addCat === "") {
         alert("Add new category is required");
       } else {
-        const response = await axios.post(
+        const response = await axiosInstance.post(
           `${backendLink}/api/v1/add-cat`,
           AddNewCat,
           { headers }
@@ -86,7 +89,7 @@ const AddBook = () => {
       ) {
         alert("All fields are required");
       } else {
-        const response = await axios.post(
+        const response = await axiosInstance.post(
           `${backendLink}/api/v1/add-book`,
           Data,
           { headers }

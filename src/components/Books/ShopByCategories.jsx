@@ -1,8 +1,8 @@
 import React, { useEffect, useState } from "react";
 import { IoSearch } from "react-icons/io5";
-import { Link, useNavigate } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 import { useSelector } from "react-redux";
-import axios from "axios";
+import axiosInstance from "../../extras/axiosInstance";
 const ShopByCategories = () => {
   const [cat, setCategories] = useState();
   const [SearchValue, setSearchValue] = useState("");
@@ -14,9 +14,12 @@ const ShopByCategories = () => {
   const navigate = useNavigate();
   useEffect(() => {
     const fetchCat = async () => {
-      const response = await axios.get(`${backendLink}/api/v1/categories`, {
-        headers,
-      });
+      const response = await axiosInstance.get(
+        `${backendLink}/api/v1/categories`,
+        {
+          headers,
+        }
+      );
       setCategories(response.data.categories);
     };
     fetchCat();

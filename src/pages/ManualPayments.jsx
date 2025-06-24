@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from "react";
-import axios from "axios";
+import axiosInstance from "../extras/axiosInstance";
 import { useParams, useNavigate } from "react-router-dom";
 import { useSelector } from "react-redux";
 import { toast } from "react-toastify";
@@ -23,7 +23,7 @@ const ManualPayments = () => {
   useEffect(() => {
     const fetchPaymentDetails = async () => {
       try {
-        const response = await axios.get(
+        const response = await axiosInstance.get(
           `${backendLink}/api/v1/get-order-details/${id}`,
           { headers }
         );
@@ -46,7 +46,7 @@ const ManualPayments = () => {
     }
     setLoading(true);
     try {
-      const response = await axios.put(
+      const response = await axiosInstance.put(
         `${backendLink}/api/v1/manualPaymentDoneByUser/${id}`,
         { transactionId },
         { headers }

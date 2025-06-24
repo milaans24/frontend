@@ -1,4 +1,4 @@
-import axios from "axios";
+import axiosInstance from "../extras/axiosInstance";
 import React, { useEffect, useState } from "react";
 import { FaCartShopping } from "react-icons/fa6";
 import { GoHeartFill } from "react-icons/go";
@@ -31,7 +31,7 @@ const ViewBookDetails = () => {
     window.scrollTo(0, 0);
     const fetch = async () => {
       try {
-        const res = await axios.get(
+        const res = await axiosInstance.get(
           `${backendLink}/api/v1/get-book-by-id/${id}`
         );
         setBook(res.data.data);
@@ -50,7 +50,7 @@ const ViewBookDetails = () => {
 
   const addToFavourite = async () => {
     try {
-      const response = await axios.put(
+      const response = await axiosInstance.put(
         `${backendLink}/api/v1/add-to-favourite`,
         {},
         { headers }
@@ -63,7 +63,7 @@ const ViewBookDetails = () => {
 
   const addToCart = async () => {
     try {
-      const response = await axios.put(
+      const response = await axiosInstance.put(
         `${backendLink}/api/v1/add-to-cart`,
         {},
         { headers }
@@ -78,9 +78,12 @@ const ViewBookDetails = () => {
 
   const deleteBook = async () => {
     try {
-      const response = await axios.delete(`${backendLink}/api/v1/delete-book`, {
-        headers,
-      });
+      const response = await axiosInstance.delete(
+        `${backendLink}/api/v1/delete-book`,
+        {
+          headers,
+        }
+      );
       toast.success(response.data.message);
       history("/all-books");
     } catch (error) {

@@ -1,5 +1,5 @@
-import React, { useState } from "react";
-import axios from "axios";
+import { useState } from "react";
+import axiosInstance from "../../extras/axiosInstance";
 import { useSelector } from "react-redux";
 import { toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
@@ -43,7 +43,7 @@ const PackageForm = () => {
     if (!validateForm()) return;
 
     try {
-      await axios.post(`${backendLink}/api/send-email`, formData);
+      await axiosInstance.post(`${backendLink}/api/send-email`, formData);
       toast.success(
         "Thank you for your inquiry! Our team will contact you soon.",
         { position: "top-right" }

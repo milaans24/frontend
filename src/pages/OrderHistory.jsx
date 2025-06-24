@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from "react";
 import Loader from "./Loader";
-import axios from "axios";
+import axiosInstance from "../extras/axiosInstance";
 import { Link } from "react-router-dom";
 import { useSelector } from "react-redux";
 
@@ -15,9 +15,12 @@ const OrderHistory = () => {
   useEffect(() => {
     const fetchOrders = async () => {
       try {
-        const res = await axios.get(`${backendLink}/api/v1/get-order-history`, {
-          headers,
-        });
+        const res = await axiosInstance.get(
+          `${backendLink}/api/v1/get-order-history`,
+          {
+            headers,
+          }
+        );
         setOrderHistory(res.data.data);
       } catch (error) {
         console.error("Error fetching order history:", error);

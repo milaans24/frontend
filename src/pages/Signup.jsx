@@ -1,7 +1,7 @@
 import React, { useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import { useSelector } from "react-redux";
-import axios from "axios";
+import axiosInstance from "../extras/axiosInstance";
 import { toast } from "react-toastify";
 import { Helmet } from "react-helmet-async";
 import { HiEye, HiEyeOff } from "react-icons/hi";
@@ -31,7 +31,10 @@ const Signup = () => {
   const submit = async (e) => {
     e.preventDefault();
     try {
-      const response = await axios.post(`${backendLink}/api/v1/sign-up`, Data);
+      const response = await axiosInstance.post(
+        `${backendLink}/api/v1/sign-up`,
+        Data
+      );
       setData({ username: "", email: "", password: "", address: "" });
       toast.success(response.data.message);
       navigate("/login");

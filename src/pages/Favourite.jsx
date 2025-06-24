@@ -1,4 +1,4 @@
-import axios from "axios";
+import axiosInstance from "../extras/axiosInstance";
 import React, { useEffect, useState } from "react";
 import BookCard from "../components/Books/BookCard";
 import Loader from "./Loader";
@@ -13,9 +13,12 @@ const Favourite = () => {
   const backendLink = useSelector((state) => state.prod.link);
   useEffect(() => {
     const fetch = async () => {
-      const res = await axios.get(`${backendLink}/api/v1/get-favourite-books`, {
-        headers,
-      });
+      const res = await axiosInstance.get(
+        `${backendLink}/api/v1/get-favourite-books`,
+        {
+          headers,
+        }
+      );
 
       setFavBooks(res.data.data);
     };

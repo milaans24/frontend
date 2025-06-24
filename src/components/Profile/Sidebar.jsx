@@ -3,90 +3,80 @@ import { Link, useLocation, useNavigate } from "react-router-dom";
 import { FaArrowRightFromBracket } from "react-icons/fa6";
 import { useDispatch, useSelector } from "react-redux";
 import { authActions } from "../../store/auth";
+import clsx from "clsx"; // Optional: For cleaner class handling
+
+const SidebarLink = ({ to, label }) => {
+  const location = useLocation();
+  const isActive = location.pathname === to;
+
+  return (
+    <Link
+      to={to}
+      className={clsx(
+        "font-semibold w-full py-2 text-center rounded transition-all duration-300",
+        {
+          "bg-zinc-200": isActive,
+          "hover:bg-zinc-200": !isActive,
+        }
+      )}
+    >
+      {label}
+    </Link>
+  );
+};
+
+const roleBasedLinks = {
+  user: [
+    { to: "/profile", label: "Favourites" },
+    { to: "/profile/orderHistory", label: "Order History" },
+    { to: "/profile/settings", label: "Settings" },
+  ],
+  admin: [
+    { to: "/profile", label: "All Orders" },
+    { to: "/profile/add-book", label: "Add Book" },
+    { to: "/profile/events", label: "Events" },
+  ],
+};
 
 const Sidebar = ({ ProfileData }) => {
   const dispatch = useDispatch();
-  const history = useNavigate();
+  const navigate = useNavigate();
   const role = useSelector((state) => state.auth.role);
-  const location = useLocation();
   const [isLogoutModalOpen, setIsLogoutModalOpen] = useState(false);
 
-  // Function to handle logout
   const handleLogout = () => {
     dispatch(authActions.logout());
     dispatch(authActions.changeRole("user"));
     localStorage.clear();
-    history("/");
+    navigate("/");
   };
 
-  // Function to check if a link is active
-  const isActive = (path) => location.pathname === path;
+  const links = roleBasedLinks[role] || [];
 
   return (
-    <div className="h-auto rounded md:shadow lg:h-[100%] flex flex-col p-3 items-center justify-between">
+    <div className="h-auto lg:h-full rounded md:shadow flex flex-col p-3 items-center justify-between">
+      {/* Profile Info */}
       <div className="flex flex-col items-center w-full">
-        <img src={ProfileData.avatar} alt="profile" className="h-[10vh]" />
+        <img
+          src={ProfileData.avatar}
+          alt="profile"
+          className="h-[10vh] object-cover rounded-full"
+        />
         <p className="mt-3 text-xl font-semibold">{ProfileData.username}</p>
-        <p className="mt-1 text-normal">{ProfileData.email}</p>
+        <p className="mt-1 text-normal text-center break-words">
+          {ProfileData.email}
+        </p>
         <div className="w-full mt-4 h-[1px] bg-zinc-500 hidden lg:block"></div>
       </div>
 
-      {role !== "admin" && (
-        <div className="w-full flex-col items-center justify-center hidden lg:flex">
-          <Link
-            to="/profile"
-            className={`font-semibold w-full py-2 text-center rounded transition-all duration-300 ${
-              isActive("/profile") ? "bg-zinc-200 " : "hover:bg-zinc-200"
-            }`}
-          >
-            Favourites
-          </Link>
-          <Link
-            to="/profile/orderHistory"
-            className={`font-semibold w-full py-2 mt-4 text-center rounded transition-all duration-300 ${
-              isActive("/profile/orderHistory")
-                ? "bg-zinc-200"
-                : "hover:bg-zinc-200"
-            }`}
-          >
-            Order History
-          </Link>
-          <Link
-            to="/profile/settings"
-            className={`font-semibold w-full py-2 mt-4 text-center rounded transition-all duration-300 ${
-              isActive("/profile/settings")
-                ? "bg-zinc-200"
-                : "hover:bg-zinc-200"
-            }`}
-          >
-            Settings
-          </Link>
-        </div>
-      )}
+      {/* Navigation Links */}
+      <div className="w-full flex-col items-center justify-center hidden lg:flex mt-4 space-y-4">
+        {links.map((link) => (
+          <SidebarLink key={link.to} to={link.to} label={link.label} />
+        ))}
+      </div>
 
-      {role === "admin" && (
-        <div className="w-full flex-col items-center justify-center hidden lg:flex">
-          <Link
-            to="/profile"
-            className={`font-semibold w-full py-2 text-center rounded transition-all duration-300 ${
-              isActive("/profile") ? "bg-zinc-200" : "hover:bg-zinc-200"
-            }`}
-          >
-            All Orders
-          </Link>
-          <Link
-            to="/profile/add-book"
-            className={`font-semibold w-full py-2 mt-4 text-center rounded transition-all duration-300 ${
-              isActive("/profile/add-book")
-                ? "bg-zinc-200"
-                : "hover:bg-zinc-200"
-            }`}
-          >
-            Add Book
-          </Link>
-        </div>
-      )}
-
+      {/* Logout Button */}
       <button
         className="bg-sky-900 w-3/6 lg:w-full mt-4 lg:mt-0 text-white font-semibold flex items-center justify-center py-2 rounded hover:bg-sky-800 transition-all duration-300"
         onClick={() => setIsLogoutModalOpen(true)}
@@ -94,7 +84,7 @@ const Sidebar = ({ ProfileData }) => {
         Log Out <FaArrowRightFromBracket className="ms-4" />
       </button>
 
-      {/* Logout Confirmation Modal (Custom) */}
+      {/* Logout Modal */}
       {isLogoutModalOpen && (
         <div className="fixed inset-0 flex items-center justify-center bg-black bg-opacity-50 z-50">
           <div className="bg-white p-6 rounded shadow-lg w-80">

@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from "react";
 import Loader from "../../pages/Loader";
 import { FaUserLarge, FaCheck } from "react-icons/fa6";
-import axios from "axios";
+import axiosInstance from "../../extras/axiosInstance";
 import { Link } from "react-router-dom";
 import { IoOpenOutline } from "react-icons/io5";
 import SeeUserData from "./SeeUserData";
@@ -28,9 +28,12 @@ const AllOrders = () => {
   useEffect(() => {
     const fetchOrders = async () => {
       try {
-        const res = await axios.get(`${backendLink}/api/v1/get-all-orders`, {
-          headers,
-        });
+        const res = await axiosInstance.get(
+          `${backendLink}/api/v1/get-all-orders`,
+          {
+            headers,
+          }
+        );
         setOrderHistory(res.data.data);
       } catch (error) {
         console.error("Failed to fetch order history:", error);
@@ -52,7 +55,7 @@ const AllOrders = () => {
     if (order) {
       const id = order._id;
       try {
-        const response = await axios.put(
+        const response = await axiosInstance.put(
           `${backendLink}/api/v1/update-status/${id}`,
           { status: Values.status },
           { headers }
@@ -75,7 +78,7 @@ const AllOrders = () => {
     if (order) {
       const id = order._id;
       try {
-        const response = await axios.put(
+        const response = await axiosInstance.put(
           `${backendLink}/api/v1/update-payment-status/${id}`,
           { paymentStatus: PaymentValues.paymentStatus },
           { headers }

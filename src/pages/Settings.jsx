@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from "react";
 import Loader from "./Loader";
-import axios from "axios";
+import axiosInstance from "../extras/axiosInstance";
 import { useSelector } from "react-redux";
 const Settings = () => {
   const [ProfileData, setProfileData] = useState();
@@ -17,9 +17,12 @@ const Settings = () => {
   const backendLink = useSelector((state) => state.prod.link);
   useEffect(() => {
     const fetch = async () => {
-      const response = await axios.get(`${backendLink}/api/v1/getUserData`, {
-        headers,
-      });
+      const response = await axiosInstance.get(
+        `${backendLink}/api/v1/getUserData`,
+        {
+          headers,
+        }
+      );
       setProfileData(response.data);
       setValue({ address: response.data.address });
     };
@@ -27,7 +30,7 @@ const Settings = () => {
   }, []);
 
   const updateAddress = async () => {
-    const res = await axios.put(
+    const res = await axiosInstance.put(
       `${backendLink}/api/v1/update-user-address`,
       Value,
       {

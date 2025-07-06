@@ -54,7 +54,7 @@ const Hero = () => {
             </span>
           </h1>
           <p className="text-normal text-zinc-600 mt-5 text-center lg:text-left">
-            Milaan Publication cherishes every writer’s creativity and every
+            Milaan Publication's cherishes every writer’s creativity and every
             reader’s experience. We give your stories the platform they deserve,
             reaching the right audience with excellence. Whether you’re a
             budding author or experienced writer, we provide professional

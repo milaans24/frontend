@@ -56,7 +56,7 @@ const Navbar = () => {
               className="flex  font-bold items-center gap-2 text-white  px-2 py-2 bg-orange-500 rounded-full "
             >
               <img src="/milaanlogo.png" alt="logo" className="h-10 w-auto  " />{" "}
-              Milaan Publication
+              Milaan Publication's
             </Link>
           </div>
           <div className=" w-1/6 block  lg:hidden">
